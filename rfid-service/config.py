@@ -13,8 +13,13 @@ SERVICE_DIR = Path(__file__).resolve().parent
 if str(SERVICE_DIR) not in sys.path:
     sys.path.insert(0, str(SERVICE_DIR))
 
+import os
 ENV_FILE = SERVICE_DIR / ".env"
-DEFAULT_DB_PATH = str(SERVICE_DIR / "data" / "offline_events.db")
+DEFAULT_DB_PATH = (
+    "/tmp/offline_events.db"
+    if os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME")
+    else str(SERVICE_DIR / "data" / "offline_events.db")
+)
 
 
 class Settings(BaseSettings):

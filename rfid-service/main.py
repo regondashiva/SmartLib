@@ -58,10 +58,15 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         backend_url=settings.backend_api_url,
     )
     # Initialize SQLite buffer schema
-    await offline_sync.initialize_buffer()
+    try:
+        await offline_sync.initialize_buffer()
+    except Exception as exc:
+        log.warning("buffer.init_error", error=str(exc))
 
-    # Start periodic offline sync task
-    sync_task = asyncio.create_task(background_sync_worker())
+    # Start periodic offline sync task (only in non-serverless environments)
+    import os
+    if not os.environ.get("VERCEL") and not os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+        sync_task = asyncio.create_task(background_sync_worker())
 
     yield
 
@@ -89,7 +94,7 @@ app = FastAPI(
 # CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins_list,
+    allow_origin_regex=r"^https?://.*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

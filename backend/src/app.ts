@@ -11,17 +11,19 @@ export function createApp(): Application {
   const app = express();
 
   // Security Headers
-  app.use(helmet());
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    })
+  );
 
   // CORS Configuration
-  const allowedOrigins =
-    env.CORS_ORIGIN === '*'
-      ? '*'
-      : env.CORS_ORIGIN.split(',').map((origin) => origin.trim());
-
   app.use(
     cors({
-      origin: allowedOrigins,
+      origin: (_origin, callback) => {
+        // Reflect request origin to allow credentials from any client (Netlify, localhost, Vercel preview)
+        callback(null, true);
+      },
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],

@@ -1,0 +1,565 @@
+{
+  "format": "SMARTLIB_POSTGRESQL_LOGICAL_BACKUP_V1",
+  "backupId": "bkp-1.4.0-2026-11-10T02-39-56-044Z",
+  "label": "phase5-acceptance-snapshot",
+  "createdAt": "2026-11-10T02:39:56.044Z",
+  "appVersion": "1.4.0",
+  "schemaVersion": "2026.11.phase4f",
+  "tableCounts": {
+    "users": 7,
+    "roles": 4,
+    "books": 50,
+    "bookItems": 99,
+    "members": 15,
+    "circulations": 20,
+    "fines": 1,
+    "rfidTags": 44,
+    "systemConfigurations": 52
+  },
+  "data": {
+    "roles": [
+      {
+        "id": "b64077c4-2fe8-4bab-a88d-344df318efa2",
+        "name": "ADMIN",
+        "description": "System Administrator with full institutional authority"
+      },
+      {
+        "id": "b93f4bc5-5b4b-4bdf-9ae7-a3df700134fd",
+        "name": "LIBRARIAN",
+        "description": "Professional library staff managing circulation, catalog, and inventory"
+      },
+      {
+        "id": "22877093-8573-472e-98e6-3dd5eba8196a",
+        "name": "RFID_OPERATOR",
+        "description": "Technical operator managing tag encoding, gate monitors, and shelf audits"
+      },
+      {
+        "id": "4453c55d-b283-4750-a853-908b77b2b43c",
+        "name": "STUDENT",
+        "description": "Standard institutional student patron with catalog and loan visibility"
+      }
+    ],
+    "systemConfigurations": [
+      {
+        "id": "92cf7bb8-eed5-4cb8-adf2-a3100ea12702",
+        "configKey": "STUDENT_LOAN_DURATION_DAYS",
+        "configValue": "14",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Standard loan period (in days) for student patrons",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:23.129Z"
+      },
+      {
+        "id": "f83f44a1-9520-4614-ac91-334a5e75fae8",
+        "configKey": "STAFF_LOAN_DURATION_DAYS",
+        "configValue": "30",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Standard loan period (in days) for administrative and technical staff",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:23.397Z"
+      },
+      {
+        "id": "255bdcff-9cf4-491f-8213-66d8f41686f8",
+        "configKey": "RFID_DUPLICATE_DETECTION_WINDOW_SECONDS",
+        "configValue": "5",
+        "dataType": "INTEGER",
+        "category": "RFID",
+        "description": "Deduplication window (in seconds) to ignore repeated reads of the same EPC tag",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:22:19.061Z"
+      },
+      {
+        "id": "effac45e-370d-45aa-b809-80e50e6bd686",
+        "configKey": "RFID_DEVICE_HEALTH_CHECK_INTERVAL_SECONDS",
+        "configValue": "30",
+        "dataType": "INTEGER",
+        "category": "RFID",
+        "description": "Interval (in seconds) between reader heartbeat health checks",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:22:19.387Z"
+      },
+      {
+        "id": "cf0979f0-2bb3-40ee-9cc8-53c82b779f24",
+        "configKey": "bookshelf.user.098b9f75-73e4-41ab-9772-bc9c40271514",
+        "configValue": "[]",
+        "dataType": "JSON",
+        "category": "BOOKSHELF",
+        "description": null,
+        "updatedByUserId": "098b9f75-73e4-41ab-9772-bc9c40271514",
+        "updatedAt": "2026-11-10T01:33:50.810Z"
+      },
+      {
+        "id": "1d187f0c-46ea-454f-9911-708737f9e592",
+        "configKey": "RFID_MOCK_MODE",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "RFID",
+        "description": "Enable software RFID emulator mode when physical UHF/HF readers are disconnected",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "26255803-b76d-4662-a5fe-e741b964eb33",
+        "configKey": "RFID_EVENT_RETRY_ATTEMPTS",
+        "configValue": "3",
+        "dataType": "INTEGER",
+        "category": "RFID",
+        "description": "Maximum retry attempts for failed RFID middleware event synchronization",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "b09f9c99-1b6f-4625-943e-abc85344a370",
+        "configKey": "RFID_EVENT_RETRY_BACKOFF_MS",
+        "configValue": "2000",
+        "dataType": "INTEGER",
+        "category": "RFID",
+        "description": "Base retry backoff interval (in milliseconds) for RFID telemetry delivery",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "ba05b823-c003-4f0b-9a08-a62254fd497b",
+        "configKey": "RFID_OFFLINE_BUFFER_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "RFID",
+        "description": "Persist RFID scan events in local SQLite buffer during backend connectivity outages",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "d132e946-6adc-4a32-bd18-a9eaec9fd29d",
+        "configKey": "RFID_OFFLINE_BUFFER_MAX_RECORDS",
+        "configValue": "10000",
+        "dataType": "INTEGER",
+        "category": "RFID",
+        "description": "Maximum number of events retained in the local offline buffer before rotation",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "8946e3fd-6abd-48d5-a93f-86c5c61f8dd4",
+        "configKey": "GATE_EVENT_LOGGING_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "SECURITY_GATE",
+        "description": "Log all authorized and unauthorized security gate passages to database",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "5bcdf4ea-714b-4373-9196-d6c197c17b0e",
+        "configKey": "GATE_EAS_BEHAVIOR",
+        "configValue": "STRICT_ALARM",
+        "dataType": "STRING",
+        "category": "SECURITY_GATE",
+        "description": "Security gate action when an armed EAS tag crosses the pedestal (STRICT_ALARM, SILENT_LOG, DISABLED)",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "418ef216-dd2b-4d9d-a4a3-b1b48d94c723",
+        "configKey": "GATE_EVENT_RETENTION_DAYS",
+        "configValue": "365",
+        "dataType": "INTEGER",
+        "category": "SECURITY_GATE",
+        "description": "Number of days security gate telemetry and CCTV references are retained",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "6838dc44-2253-4d6b-9808-556ec8132e33",
+        "configKey": "NOTIFICATIONS_EMAIL_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "NOTIFICATIONS",
+        "description": "Enable institutional email notifications for circulation and fine events",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "333a44c3-0673-426e-b78e-da34cbd2857d",
+        "configKey": "NOTIFICATIONS_SMS_ENABLED",
+        "configValue": "false",
+        "dataType": "BOOLEAN",
+        "category": "NOTIFICATIONS",
+        "description": "Enable SMS text message dispatch for critical overdue and gate alerts",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "47373373-d766-47ad-933d-63d2b9316ecf",
+        "configKey": "NOTIFICATIONS_DUE_DATE_REMINDER_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "NOTIFICATIONS",
+        "description": "Send automated due-date reminder notices prior to loan expiration",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "8427d9fe-e5ac-40c6-8726-c7c8128d83dc",
+        "configKey": "NOTIFICATIONS_DUE_DATE_REMINDER_DAYS_BEFORE",
+        "configValue": "2",
+        "dataType": "INTEGER",
+        "category": "NOTIFICATIONS",
+        "description": "Number of days before due date to send courtesy reminder notifications",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "8a00bc97-3737-4d1b-85fc-e682d39a6941",
+        "configKey": "NOTIFICATIONS_OVERDUE_ALERT_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "NOTIFICATIONS",
+        "description": "Send automated overdue penalty notifications to delinquent borrowers",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "537ef582-bdea-4405-9679-7fe891382518",
+        "configKey": "NOTIFICATIONS_SECURITY_GATE_ALERT_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "NOTIFICATIONS",
+        "description": "Dispatch immediate alerts to duty librarians when an EAS gate alarm triggers",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "ba775fda-7cdb-41b6-b1f8-cc11b88c10ae",
+        "configKey": "INSTITUTION_NAME",
+        "configValue": "National Institute of Technology",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "Official legal name of the academic institution",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "113a9185-fb7b-42e6-9568-94b50ec8cd5d",
+        "configKey": "LIBRARY_NAME",
+        "configValue": "Central RFID Knowledge Resource Centre",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "Official name of the central or departmental library",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "74e81668-67fe-45b2-8802-c21d6f5b7f39",
+        "configKey": "ACADEMIC_YEAR",
+        "configValue": "2025-2026",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "Current active academic calendar cycle (YYYY-YYYY)",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "a86a28fe-4369-4559-a355-328e45dfdd9c",
+        "configKey": "TIME_ZONE",
+        "configValue": "Asia/Kolkata",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "IANA standard time zone used for due dates and compliance reports",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "6f44f9c4-7ecc-4eaf-96a9-b68147e22715",
+        "configKey": "CURRENCY",
+        "configValue": "INR",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "ISO 4217 currency code for fine assessments and book valuations",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "8a0c3495-aa2c-4fbb-bbd0-4ee27bcd1e0a",
+        "configKey": "CONTACT_EMAIL",
+        "configValue": "library-admin@smartlib.ac.in",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "Official institutional contact email for patron inquiries and notices",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "e00e37d2-eef4-4a2e-9780-a9b7fa1f35bc",
+        "configKey": "CONTACT_PHONE",
+        "configValue": "+91-11-2659-7135",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "Official library circulation desk telephone number",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "40787af8-9888-48b5-9614-c92407f7817b",
+        "configKey": "GATE_ALERT_THRESHOLD_PER_HOUR",
+        "configValue": "5",
+        "dataType": "INTEGER",
+        "category": "SECURITY_GATE",
+        "description": "Number of unresolved gate alarms per hour that triggers an escalation alert",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:22:19.709Z"
+      },
+      {
+        "id": "cf87ee88-bafc-4bb1-ad26-976c3ee21489",
+        "configKey": "DEPLOY_CURRENT_VERSION",
+        "configValue": "1.4.0",
+        "dataType": "STRING",
+        "category": "DEPLOYMENT",
+        "description": "System deployment and update lifecycle metadata",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:26:43.373Z"
+      },
+      {
+        "id": "eb4c40cb-2105-45e2-909f-8018ba188180",
+        "configKey": "ENFORCE_REFERENCE_ONLY_RESTRICTION",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "CIRCULATION",
+        "description": "Reject checkout and renewal operations on items marked Reference-Only",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:26.868Z"
+      },
+      {
+        "id": "3d52e2eb-72f0-4efb-884e-ba7ccfc0ca7a",
+        "configKey": "FACULTY_LOAN_DURATION_DAYS",
+        "configValue": "30",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Extended loan period (in days) for faculty members",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:23.696Z"
+      },
+      {
+        "id": "bfc4db28-6c24-474f-99b4-52463fe32e05",
+        "configKey": "MAX_RENEWALS",
+        "configValue": "2",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum number of renewals permitted per active loan",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:23.979Z"
+      },
+      {
+        "id": "61c14395-036a-45be-a8f1-219b5cefcae6",
+        "configKey": "RENEWAL_EXTENSION_DAYS",
+        "configValue": "14",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Number of days added to due date upon standard renewal",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:24.266Z"
+      },
+      {
+        "id": "7088667d-955d-4a15-a8ee-ba6007a4a6ab",
+        "configKey": "FACULTY_RENEWAL_EXTENSION_DAYS",
+        "configValue": "30",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Number of days added to due date upon faculty renewal",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:24.534Z"
+      },
+      {
+        "id": "010c2416-aefd-4916-850e-d653b651f441",
+        "configKey": "MAX_ACTIVE_LOANS_STUDENT",
+        "configValue": "4",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum concurrent active loans permitted for student members",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:24.834Z"
+      },
+      {
+        "id": "98ac99e8-57ef-4347-adae-114fd08ac0b1",
+        "configKey": "MAX_ACTIVE_LOANS_STAFF",
+        "configValue": "8",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum concurrent active loans permitted for staff members",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:25.118Z"
+      },
+      {
+        "id": "623b9bf2-6400-4fe6-947e-04b9574cc185",
+        "configKey": "MAX_ACTIVE_LOANS_FACULTY",
+        "configValue": "10",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum concurrent active loans permitted for faculty members",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:25.363Z"
+      },
+      {
+        "id": "46b31229-2fff-45a0-add2-d97594f34523",
+        "configKey": "MAX_ACTIVE_LOANS_RESEARCH_SCHOLAR",
+        "configValue": "8",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum concurrent active loans permitted for research scholars",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:25.732Z"
+      },
+      {
+        "id": "3e8a9f18-2c73-4bbe-a19e-07c35a87abaf",
+        "configKey": "MAX_ACTIVE_LOANS_GUEST",
+        "configValue": "2",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum concurrent active loans permitted for guest patrons",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:26.026Z"
+      },
+      {
+        "id": "6d6dd092-45b8-49d6-b3d9-c6d95392fc6a",
+        "configKey": "DAILY_FINE_RATE",
+        "configValue": "5.00",
+        "dataType": "DECIMAL",
+        "category": "CIRCULATION",
+        "description": "Monetary fine assessed per overdue calendar day (in institutional currency)",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:26.282Z"
+      },
+      {
+        "id": "791713ca-da6e-4c6e-9d62-b54f6ea7bcf8",
+        "configKey": "FINE_BORROWING_THRESHOLD",
+        "configValue": "25.00",
+        "dataType": "DECIMAL",
+        "category": "CIRCULATION",
+        "description": "Maximum unpaid fine balance permitted before checkout and renewal privileges are blocked",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:23:26.546Z"
+      },
+      {
+        "id": "4397df0c-9e84-423e-ba26-60b048c6d64f",
+        "configKey": "serials.issues.v1",
+        "configValue": "[{\"id\":\"324f4c49-61c3-4380-94b4-b41f77147c74\",\"serialId\":\"b4c25d51-a81c-4514-8620-f0aecc83699c\",\"serialTitle\":\"Journal of Library Automation 044978\",\"issn\":\"0449-497X\",\"volumeNumber\":\"Vol. 12\",\"issueNumber\":\"Issue 1\",\"expectedDate\":\"2026-03-01\",\"receivedDate\":\"2026-11-10\",\"status\":\"RECEIVED\",\"createdAt\":\"2026-11-10T02:18:01.514Z\",\"updatedAt\":\"2026-11-10T02:18:02.951Z\",\"notes\":\"Received in good condition\"},{\"id\":\"6d295ff1-be5c-4a6f-bd55-f600234c7431\",\"serialId\":\"d8e609dd-26ea-4a87-b29d-4198862dbbb2\",\"serialTitle\":\"Journal of Library Automation 817747\",\"issn\":\"8177-774X\",\"volumeNumber\":\"Vol. 12\",\"issueNumber\":\"Issue 1\",\"expectedDate\":\"2026-03-01\",\"receivedDate\":\"2026-11-10\",\"status\":\"RECEIVED\",\"createdAt\":\"2026-11-10T01:57:27.011Z\",\"updatedAt\":\"2026-11-10T01:57:28.348Z\",\"notes\":\"Received in good condition\"},{\"id\":\"06dfb04b-bd5c-4be8-bef3-ee886262fedb\",\"serialId\":\"379ce391-8110-4500-8b14-a755f5cfd99e\",\"serialTitle\":\"Journal of Library Automation 362628\",\"issn\":\"3626-262X\",\"volumeNumber\":\"Vol. 12\",\"issueNumber\":\"Issue 1\",\"expectedDate\":\"2026-03-01\",\"receivedDate\":\"2026-11-10\",\"status\":\"RECEIVED\",\"createdAt\":\"2026-11-10T01:33:13.552Z\",\"updatedAt\":\"2026-11-10T01:33:14.903Z\",\"notes\":\"Received in good condition\"},{\"id\":\"0e3d8abf-4a9d-425a-86d3-ccc890fd3a45\",\"serialId\":\"025d85fa-2dde-48a1-9625-3ea27fda6237\",\"serialTitle\":\"Journal of Library Automation 541756\",\"issn\":\"5417-175X\",\"volumeNumber\":\"Vol. 12\",\"issueNumber\":\"Issue 1\",\"expectedDate\":\"2026-03-01\",\"receivedDate\":\"2026-11-09\",\"status\":\"RECEIVED\",\"createdAt\":\"2026-11-09T19:46:09.806Z\",\"updatedAt\":\"2026-11-09T19:46:11.067Z\",\"notes\":\"Received in good condition\"},{\"id\":\"87e58bc1-99ca-4cb7-ac41-2b58a89ae42f\",\"serialId\":\"88aeeac9-8614-458b-b009-fe0c93768bdf\",\"serialTitle\":\"Journal of Library Automation 800989\",\"issn\":\"8009-098X\",\"volumeNumber\":\"Vol. 12\",\"issueNumber\":\"Issue 1\",\"expectedDate\":\"2026-03-01\",\"receivedDate\":\"2026-11-09\",\"status\":\"RECEIVED\",\"createdAt\":\"2026-11-09T19:00:28.986Z\",\"updatedAt\":\"2026-11-09T19:00:30.263Z\",\"notes\":\"Received in good condition\"},{\"id\":\"dc3f5f48-6f22-4c10-9c89-9feb916efd17\",\"serialId\":\"695b283f-1fcf-418e-b7a6-06c8bd24d292\",\"serialTitle\":\"Journal of Library Automation 409240\",\"issn\":\"4092-924X\",\"volumeNumber\":\"Vol. 12\",\"issueNumber\":\"Issue 1\",\"expectedDate\":\"2026-03-01\",\"receivedDate\":\"2026-11-09\",\"status\":\"RECEIVED\",\"createdAt\":\"2026-11-09T18:53:53.810Z\",\"updatedAt\":\"2026-11-09T18:53:55.046Z\",\"notes\":\"Received in good condition\"},{\"id\":\"7828fb82-d7fd-49a0-a97b-f41d1738f42f\",\"serialId\":\"da510535-9cff-4ff8-8f67-24073941b739\",\"serialTitle\":\"Journal of Library Automation 234256\",\"issn\":\"2342-425X\",\"volumeNumber\":\"Vol. 12\",\"issueNumber\":\"Issue 1\",\"expectedDate\":\"2026-03-01\",\"receivedDate\":\"2026-11-09\",\"status\":\"RECEIVED\",\"createdAt\":\"2026-11-09T18:50:57.678Z\",\"updatedAt\":\"2026-11-09T18:50:58.958Z\",\"notes\":\"Received in good condition\"},{\"id\":\"93ef451e-098a-4c59-8986-8a343d4856ce\",\"serialId\":\"63df9bde-0e1d-4a7c-963c-1d101811d1d2\",\"serialTitle\":\"Journal of Library Automation 021927\",\"issn\":\"0219-192X\",\"volumeNumber\":\"Vol. 12\",\"issueNumber\":\"Issue 1\",\"expectedDate\":\"2026-03-01\",\"receivedDate\":\"2026-11-09\",\"status\":\"RECEIVED\",\"createdAt\":\"2026-11-09T16:00:52.242Z\",\"updatedAt\":\"2026-11-09T16:00:53.794Z\",\"notes\":\"Received in good condition\"},{\"id\":\"7630f675-5720-47cb-bd9f-6ae8f9a819a7\",\"serialId\":\"347654dd-ab1b-4586-98a1-00cbc4b009a7\",\"serialTitle\":\"Journal of Library Automation 816425\",\"issn\":\"8164-642X\",\"volumeNumber\":\"Vol. 12\",\"issueNumber\":\"Issue 1\",\"expectedDate\":\"2026-03-01\",\"receivedDate\":\"2026-11-09\",\"status\":\"RECEIVED\",\"createdAt\":\"2026-11-09T15:57:28.871Z\",\"updatedAt\":\"2026-11-09T15:57:30.374Z\",\"notes\":\"Received in good condition\"},{\"id\":\"249c6299-3412-436d-8ee7-7768966a67fe\",\"serialId\":\"feae19fe-8d16-4bad-9a13-cd9c3d21dcab\",\"serialTitle\":\"Journal of Library Automation 631147\",\"issn\":\"6311-114X\",\"volumeNumber\":\"Vol. 12\",\"issueNumber\":\"Issue 1\",\"expectedDate\":\"2026-03-01\",\"receivedDate\":\"2026-11-09\",\"status\":\"RECEIVED\",\"createdAt\":\"2026-11-09T15:54:23.728Z\",\"updatedAt\":\"2026-11-09T15:54:25.161Z\",\"notes\":\"Received in good condition\"},{\"id\":\"8dd686e8-1fd4-4bc4-a12e-2720a5df75a0\",\"serialId\":\"da77ef31-e40d-421b-b531-0b7c34d69d09\",\"serialTitle\":\"Journal of Library Automation 481113\",\"issn\":\"4811-111X\",\"volumeNumber\":\"Vol. 12\",\"issueNumber\":\"Issue 1\",\"expectedDate\":\"2026-03-01\",\"receivedDate\":\"2026-11-09\",\"status\":\"RECEIVED\",\"createdAt\":\"2026-11-09T15:51:47.438Z\",\"updatedAt\":\"2026-11-09T15:51:48.788Z\",\"notes\":\"Received in good condition\"},{\"id\":\"iss-default-01\",\"serialId\":\"ser-default-01\",\"serialTitle\":\"IEEE Computer Magazine\",\"issn\":\"0018-9162\",\"volumeNumber\":\"Vol. 59\",\"issueNumber\":\"No. 1\",\"expectedDate\":\"2026-01-15\",\"receivedDate\":\"2026-01-14\",\"status\":\"RECEIVED\",\"notes\":\"Checked in at Periodicals Desk\",\"createdAt\":\"2026-01-14T10:00:00.000Z\",\"updatedAt\":\"2026-01-14T10:00:00.000Z\"},{\"id\":\"iss-default-02\",\"serialId\":\"ser-default-01\",\"serialTitle\":\"IEEE Computer Magazine\",\"issn\":\"0018-9162\",\"volumeNumber\":\"Vol. 59\",\"issueNumber\":\"No. 2\",\"expectedDate\":\"2026-02-15\",\"receivedDate\":null,\"status\":\"MISSING\",\"notes\":\"Claim notice prepared for publisher\",\"createdAt\":\"2026-02-01T10:00:00.000Z\",\"updatedAt\":\"2026-02-20T10:00:00.000Z\"}]",
+        "dataType": "JSON",
+        "category": "SERIALS",
+        "description": "Serials store for serials.issues.v1",
+        "updatedByUserId": "676ba1c4-c072-4f6f-a9a0-cd9057da5bc4",
+        "updatedAt": "2026-11-10T02:18:02.954Z"
+      },
+      {
+        "id": "241308d0-6012-410e-b7b7-ce48ff3ab0a4",
+        "configKey": "DEPLOY_LAST_KNOWN_GOOD_BACKUP_ID",
+        "configValue": "bkp-1.4.0-2026-11-10T02-26-24-019Z",
+        "dataType": "STRING",
+        "category": "DEPLOYMENT",
+        "description": "Identifier of preserved last known-good database backup",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:26:26.257Z"
+      },
+      {
+        "id": "bf669925-ec28-4427-83b9-1198bfb37e4b",
+        "configKey": "DEPLOY_LAST_KNOWN_GOOD_VERSION",
+        "configValue": "1.4.0",
+        "dataType": "STRING",
+        "category": "DEPLOYMENT",
+        "description": "Last known-good application version preserved for rollback",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:26:27.253Z"
+      },
+      {
+        "id": "9c051ec6-bbe1-4270-a49e-f6d229da1c27",
+        "configKey": "acquisitions.requests.v1",
+        "configValue": "[{\"id\":\"83961c2f-8c0d-448b-8d31-1f7473b1f202\",\"requestNumber\":\"ACQ-REQ-053991\",\"title\":\"Distributed Systems Engineering Vol 044978\",\"isbn13\":\"9789300449781\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"quantity\":2,\"estimatedUnitPrice\":850,\"department\":\"General Library\",\"status\":\"ORDERED\",\"requestedByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-10T02:17:33.991Z\",\"updatedAt\":\"2026-11-10T02:17:36.667Z\"},{\"id\":\"152dae21-1a0c-4f18-9e00-405c0e40ef7b\",\"requestNumber\":\"ACQ-REQ-825572\",\"title\":\"Distributed Systems Engineering Vol 817747\",\"isbn13\":\"9789308177471\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"quantity\":2,\"estimatedUnitPrice\":850,\"department\":\"General Library\",\"status\":\"ORDERED\",\"requestedByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-10T01:57:05.572Z\",\"updatedAt\":\"2026-11-10T01:57:07.163Z\"},{\"id\":\"8d92d534-34d1-4897-bfb9-af1bab814e02\",\"requestNumber\":\"ACQ-REQ-370692\",\"title\":\"Distributed Systems Engineering Vol 362628\",\"isbn13\":\"9789303626281\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"quantity\":2,\"estimatedUnitPrice\":850,\"department\":\"General Library\",\"status\":\"ORDERED\",\"requestedByEmail\":\"librarian@smartlib.institution.edu\",\"createdAt\":\"2026-11-10T01:32:50.692Z\",\"updatedAt\":\"2026-11-10T01:32:52.359Z\"},{\"id\":\"c5727618-3f34-4164-a4ce-fd186cc14abf\",\"requestNumber\":\"ACQ-REQ-549310\",\"title\":\"Distributed Systems Engineering Vol 541756\",\"isbn13\":\"9789305417561\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"quantity\":2,\"estimatedUnitPrice\":850,\"department\":\"General Library\",\"status\":\"ORDERED\",\"requestedByEmail\":\"librarian@smartlib.institution.edu\",\"createdAt\":\"2026-11-09T19:45:49.310Z\",\"updatedAt\":\"2026-11-09T19:45:50.832Z\"},{\"id\":\"95c5f7a6-441b-45b8-8022-f3cbfff40e90\",\"requestNumber\":\"ACQ-REQ-808082\",\"title\":\"Distributed Systems Engineering Vol 800989\",\"isbn13\":\"9789308009891\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"quantity\":2,\"estimatedUnitPrice\":850,\"department\":\"General Library\",\"status\":\"ORDERED\",\"requestedByEmail\":\"librarian@smartlib.institution.edu\",\"createdAt\":\"2026-11-09T19:00:08.082Z\",\"updatedAt\":\"2026-11-09T19:00:09.617Z\"},{\"id\":\"4aae69de-0571-4667-b390-38f87a478250\",\"requestNumber\":\"ACQ-REQ-416073\",\"title\":\"Distributed Systems Engineering Vol 409240\",\"isbn13\":\"9789304092401\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"quantity\":2,\"estimatedUnitPrice\":850,\"department\":\"General Library\",\"status\":\"ORDERED\",\"requestedByEmail\":\"librarian.phase5b@smartlib.local\",\"createdAt\":\"2026-11-09T18:53:36.073Z\",\"updatedAt\":\"2026-11-09T18:53:37.679Z\"},{\"id\":\"8f357bab-c252-49ce-8e03-53405955e0f4\",\"requestNumber\":\"ACQ-REQ-241549\",\"title\":\"Distributed Systems Engineering Vol 234256\",\"isbn13\":\"9789302342561\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"quantity\":2,\"estimatedUnitPrice\":850,\"department\":\"General Library\",\"status\":\"ORDERED\",\"requestedByEmail\":\"librarian.phase5b@smartlib.local\",\"createdAt\":\"2026-11-09T18:50:41.550Z\",\"updatedAt\":\"2026-11-09T18:50:43.088Z\"},{\"id\":\"3ab58d75-9c8d-45d3-9f5a-55a8543a82a9\",\"requestNumber\":\"ACQ-REQ-029656\",\"title\":\"Distributed Systems Engineering Vol 021927\",\"isbn13\":\"9789300219271\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"quantity\":2,\"estimatedUnitPrice\":850,\"department\":\"General Library\",\"status\":\"ORDERED\",\"requestedByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-09T16:00:29.656Z\",\"updatedAt\":\"2026-11-09T16:00:31.452Z\"},{\"id\":\"108253f7-5c1d-4c54-8259-892eeed59a32\",\"requestNumber\":\"ACQ-REQ-825013\",\"title\":\"Distributed Systems Engineering Vol 816425\",\"isbn13\":\"9789308164251\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"quantity\":2,\"estimatedUnitPrice\":850,\"department\":\"General Library\",\"status\":\"ORDERED\",\"requestedByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-09T15:57:05.013Z\",\"updatedAt\":\"2026-11-09T15:57:06.766Z\"},{\"id\":\"10affd7b-4d1e-4e0b-84ff-19b3a7de1f63\",\"requestNumber\":\"ACQ-REQ-639149\",\"title\":\"Distributed Systems Engineering Vol 631147\",\"isbn13\":\"9789306311471\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"quantity\":2,\"estimatedUnitPrice\":850,\"department\":\"General Library\",\"status\":\"ORDERED\",\"requestedByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-09T15:53:59.149Z\",\"updatedAt\":\"2026-11-09T15:54:00.892Z\"},{\"id\":\"1a9ef468-3262-4e8a-8733-a2e63dd7c49b\",\"requestNumber\":\"ACQ-REQ-491692\",\"title\":\"Distributed Systems Engineering Vol 481113\",\"isbn13\":\"9789304811131\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"quantity\":2,\"estimatedUnitPrice\":850,\"department\":\"General Library\",\"status\":\"ORDERED\",\"requestedByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-09T15:51:31.692Z\",\"updatedAt\":\"2026-11-09T15:51:33.534Z\"}]",
+        "dataType": "JSON",
+        "category": "ACQUISITIONS",
+        "description": "Acquisitions store for acquisitions.requests.v1",
+        "updatedByUserId": "676ba1c4-c072-4f6f-a9a0-cd9057da5bc4",
+        "updatedAt": "2026-11-10T02:17:36.670Z"
+      },
+      {
+        "id": "4487fd69-01b0-47ec-baa6-46db7f4a7ecd",
+        "configKey": "bookshelf.user.8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "configValue": "[]",
+        "dataType": "JSON",
+        "category": "BOOKSHELF",
+        "description": null,
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:18:42.428Z"
+      },
+      {
+        "id": "db6bb8f6-26ee-4131-a066-13acbcd8fa06",
+        "configKey": "PHASE5B_NOTIFICATION_QUEUE_META",
+        "configValue": "{\"003f3a79-8da7-45e2-ae8e-c23207a023ba\":{\"notificationId\":\"003f3a79-8da7-45e2-ae8e-c23207a023ba\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockSmtpEmailAdapter (Provider-Neutral)\",\"providerMessageId\":\"<mock-email-7d0262ee-3aa1-4545-9bd0-b299d6e89e70@smartlib.local>\",\"renderedSlipOrPayload\":\"To: siddharth.938525@smartlib.local\\nSubject: Upcoming Due Date Reminder\\n\\nYour borrowed monograph is due in 2 days.\",\"lastAttemptAt\":\"2026-11-09T16:33:01.497Z\"},\"5b19769a-28ce-4f83-9b38-76cc3a6dea85\":{\"notificationId\":\"5b19769a-28ce-4f83-9b38-76cc3a6dea85\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockThermalSlipPrintAdapter (Provider-Neutral)\",\"providerMessageId\":\"PRN-JOB-1794241986400\",\"renderedSlipOrPayload\":\"========================================\\n       SMARTLIB INSTITUTIONAL SLIP      \\n========================================\\nRECIPIENT : CIRC-PRINTER-01 (MEM-5B-938525)\\nNOTICE    : Circulation Slip & Fine Notice\\nDATE      : 2026-11-09T16:33:06.400Z\\n----------------------------------------\\nPlease retain this slip for your records.\\n========================================\",\"lastAttemptAt\":\"2026-11-09T16:33:06.400Z\"},\"d2a102d6-f5d5-4005-b374-2f4ea9452605\":{\"notificationId\":\"d2a102d6-f5d5-4005-b374-2f4ea9452605\",\"retryCount\":1,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockRestSmsGatewayAdapter (Provider-Neutral)\",\"providerMessageId\":\"SM-CE05393E-5F8\",\"renderedSlipOrPayload\":\"[SMARTLIB SMS -> +919876543210] Overdue Alert: Book ACC-5B is overdue.\",\"lastAttemptAt\":\"2026-11-09T16:33:13.681Z\"},\"f76f1324-f25c-4a71-a0ea-f1bf134542d2\":{\"notificationId\":\"f76f1324-f25c-4a71-a0ea-f1bf134542d2\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockSmtpEmailAdapter (Provider-Neutral)\",\"providerMessageId\":\"<mock-email-7261b133-793b-47db-9eeb-da70198d434d@smartlib.local>\",\"renderedSlipOrPayload\":\"To: siddharth.142025@smartlib.local\\nSubject: Upcoming Due Date Reminder\\n\\nYour borrowed monograph is due in 2 days.\",\"lastAttemptAt\":\"2026-11-09T16:36:22.111Z\"},\"26801a86-bdf3-431e-9122-1c46d7480a2f\":{\"notificationId\":\"26801a86-bdf3-431e-9122-1c46d7480a2f\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockThermalSlipPrintAdapter (Provider-Neutral)\",\"providerMessageId\":\"PRN-JOB-1794242186858\",\"renderedSlipOrPayload\":\"========================================\\n       SMARTLIB INSTITUTIONAL SLIP      \\n========================================\\nRECIPIENT : CIRC-PRINTER-01 (MEM-5B-142025)\\nNOTICE    : Circulation Slip & Fine Notice\\nDATE      : 2026-11-09T16:36:26.858Z\\n----------------------------------------\\nPlease retain this slip for your records.\\n========================================\",\"lastAttemptAt\":\"2026-11-09T16:36:26.858Z\"},\"9f2da9cf-db68-4a05-ab34-a070ca23bab3\":{\"notificationId\":\"9f2da9cf-db68-4a05-ab34-a070ca23bab3\",\"retryCount\":1,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockRestSmsGatewayAdapter (Provider-Neutral)\",\"providerMessageId\":\"SM-9E9BECA3-E8C\",\"renderedSlipOrPayload\":\"[SMARTLIB SMS -> +919876543210] Overdue Alert: Book ACC-5B is overdue.\",\"lastAttemptAt\":\"2026-11-09T16:36:34.386Z\"},\"5265516b-0878-42d3-b04b-0f31692f91d9\":{\"notificationId\":\"5265516b-0878-42d3-b04b-0f31692f91d9\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockSmtpEmailAdapter (Provider-Neutral)\",\"providerMessageId\":\"<mock-email-a28de5be-dd4a-4b06-a368-22c9494c66ae@smartlib.local>\",\"renderedSlipOrPayload\":\"To: siddharth.321493@smartlib.local\\nSubject: Upcoming Due Date Reminder\\n\\nYour borrowed monograph is due in 2 days.\",\"lastAttemptAt\":\"2026-11-09T16:39:21.917Z\"},\"a4e8d211-5137-4f57-9246-37dff439ba95\":{\"notificationId\":\"a4e8d211-5137-4f57-9246-37dff439ba95\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockThermalSlipPrintAdapter (Provider-Neutral)\",\"providerMessageId\":\"PRN-JOB-1794242367180\",\"renderedSlipOrPayload\":\"========================================\\n       SMARTLIB INSTITUTIONAL SLIP      \\n========================================\\nRECIPIENT : CIRC-PRINTER-01 (MEM-5B-321493)\\nNOTICE    : Circulation Slip & Fine Notice\\nDATE      : 2026-11-09T16:39:27.180Z\\n----------------------------------------\\nPlease retain this slip for your records.\\n========================================\",\"lastAttemptAt\":\"2026-11-09T16:39:27.180Z\"},\"70114abb-cb4a-4def-8645-e550ca762882\":{\"notificationId\":\"70114abb-cb4a-4def-8645-e550ca762882\",\"retryCount\":1,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockRestSmsGatewayAdapter (Provider-Neutral)\",\"providerMessageId\":\"SM-0DCC5A20-570\",\"renderedSlipOrPayload\":\"[SMARTLIB SMS -> +919876543210] Overdue Alert: Book ACC-5B is overdue.\",\"lastAttemptAt\":\"2026-11-09T16:39:34.921Z\"},\"ec94ef8e-fbab-420b-915f-37ce7572e53a\":{\"notificationId\":\"ec94ef8e-fbab-420b-915f-37ce7572e53a\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockSmtpEmailAdapter (Provider-Neutral)\",\"providerMessageId\":\"<mock-email-2aacb089-5e44-4010-9037-4f02d0609dea@smartlib.local>\",\"renderedSlipOrPayload\":\"To: siddharth.234251@smartlib.local\\nSubject: Upcoming Due Date Reminder\\n\\nYour borrowed monograph is due in 2 days.\",\"lastAttemptAt\":\"2026-11-09T18:51:08.988Z\"},\"d9d2269c-6eb7-41ca-b3d1-d85fd38c3bde\":{\"notificationId\":\"d9d2269c-6eb7-41ca-b3d1-d85fd38c3bde\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockThermalSlipPrintAdapter (Provider-Neutral)\",\"providerMessageId\":\"PRN-JOB-1794250273468\",\"renderedSlipOrPayload\":\"========================================\\n       SMARTLIB INSTITUTIONAL SLIP      \\n========================================\\nRECIPIENT : CIRC-PRINTER-01 (MEM-5B-234251)\\nNOTICE    : Circulation Slip & Fine Notice\\nDATE      : 2026-11-09T18:51:13.468Z\\n----------------------------------------\\nPlease retain this slip for your records.\\n========================================\",\"lastAttemptAt\":\"2026-11-09T18:51:13.468Z\"},\"a183142c-2c04-445c-a509-cb44c7271264\":{\"notificationId\":\"a183142c-2c04-445c-a509-cb44c7271264\",\"retryCount\":1,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockRestSmsGatewayAdapter (Provider-Neutral)\",\"providerMessageId\":\"SM-522E0518-9D2\",\"renderedSlipOrPayload\":\"[SMARTLIB SMS -> +919876543210] Overdue Alert: Book ACC-5B is overdue.\",\"lastAttemptAt\":\"2026-11-09T18:51:19.927Z\"},\"d4cfe549-e542-476b-88f7-ab9823dab94c\":{\"notificationId\":\"d4cfe549-e542-476b-88f7-ab9823dab94c\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockSmtpEmailAdapter (Provider-Neutral)\",\"providerMessageId\":\"<mock-email-c7c6bd62-078b-4603-911f-a033d3a5bae3@smartlib.local>\",\"renderedSlipOrPayload\":\"To: siddharth.409250@smartlib.local\\nSubject: Upcoming Due Date Reminder\\n\\nYour borrowed monograph is due in 2 days.\",\"lastAttemptAt\":\"2026-11-09T18:54:04.340Z\"},\"4a2d728f-9e06-4069-9f44-aa5ca621dee6\":{\"notificationId\":\"4a2d728f-9e06-4069-9f44-aa5ca621dee6\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockThermalSlipPrintAdapter (Provider-Neutral)\",\"providerMessageId\":\"PRN-JOB-1794250449042\",\"renderedSlipOrPayload\":\"========================================\\n       SMARTLIB INSTITUTIONAL SLIP      \\n========================================\\nRECIPIENT : CIRC-PRINTER-01 (MEM-5B-409250)\\nNOTICE    : Circulation Slip & Fine Notice\\nDATE      : 2026-11-09T18:54:09.042Z\\n----------------------------------------\\nPlease retain this slip for your records.\\n========================================\",\"lastAttemptAt\":\"2026-11-09T18:54:09.042Z\"},\"10477960-66dd-41ff-8100-293e6e56a7b4\":{\"notificationId\":\"10477960-66dd-41ff-8100-293e6e56a7b4\",\"retryCount\":1,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockRestSmsGatewayAdapter (Provider-Neutral)\",\"providerMessageId\":\"SM-CE16FD64-784\",\"renderedSlipOrPayload\":\"[SMARTLIB SMS -> +919876543210] Overdue Alert: Book ACC-5B is overdue.\",\"lastAttemptAt\":\"2026-11-09T18:54:15.585Z\"},\"f8372d2a-aaa1-45c6-8f55-5b590997ed2d\":{\"notificationId\":\"f8372d2a-aaa1-45c6-8f55-5b590997ed2d\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockSmtpEmailAdapter (Provider-Neutral)\",\"providerMessageId\":\"<mock-email-94f43091-6671-4e1c-8c87-14694b24e94f@smartlib.local>\",\"renderedSlipOrPayload\":\"To: siddharth.419910@smartlib.local\\nSubject: Upcoming Due Date Reminder\\n\\nYour borrowed monograph is due in 2 days.\",\"lastAttemptAt\":\"2026-11-09T19:44:14.459Z\"},\"47d00e30-5ee3-4cc3-b0b2-536f5ee50d0f\":{\"notificationId\":\"47d00e30-5ee3-4cc3-b0b2-536f5ee50d0f\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockThermalSlipPrintAdapter (Provider-Neutral)\",\"providerMessageId\":\"PRN-JOB-1794253459124\",\"renderedSlipOrPayload\":\"========================================\\n       SMARTLIB INSTITUTIONAL SLIP      \\n========================================\\nRECIPIENT : CIRC-PRINTER-01 (MEM-5B-419910)\\nNOTICE    : Circulation Slip & Fine Notice\\nDATE      : 2026-11-09T19:44:19.123Z\\n----------------------------------------\\nPlease retain this slip for your records.\\n========================================\",\"lastAttemptAt\":\"2026-11-09T19:44:19.124Z\"},\"15dca66a-4910-420d-909a-34500e606395\":{\"notificationId\":\"15dca66a-4910-420d-909a-34500e606395\",\"retryCount\":1,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockRestSmsGatewayAdapter (Provider-Neutral)\",\"providerMessageId\":\"SM-4D2D352D-2EA\",\"renderedSlipOrPayload\":\"[SMARTLIB SMS -> +919876543210] Overdue Alert: Book ACC-5B is overdue.\",\"lastAttemptAt\":\"2026-11-09T19:44:25.638Z\"},\"e1897d43-17e6-49cd-afb1-a4a8ec702502\":{\"notificationId\":\"e1897d43-17e6-49cd-afb1-a4a8ec702502\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockSmtpEmailAdapter (Provider-Neutral)\",\"providerMessageId\":\"<mock-email-4b414a64-b5e1-4ee8-b711-2c7838859b8c@smartlib.local>\",\"renderedSlipOrPayload\":\"To: siddharth.216857@smartlib.local\\nSubject: Upcoming Due Date Reminder\\n\\nYour borrowed monograph is due in 2 days.\",\"lastAttemptAt\":\"2026-11-10T01:30:54.344Z\"},\"d63d6350-a471-4705-9f6e-d0c7a17c72bd\":{\"notificationId\":\"d63d6350-a471-4705-9f6e-d0c7a17c72bd\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockThermalSlipPrintAdapter (Provider-Neutral)\",\"providerMessageId\":\"PRN-JOB-1794274259209\",\"renderedSlipOrPayload\":\"========================================\\n       SMARTLIB INSTITUTIONAL SLIP      \\n========================================\\nRECIPIENT : CIRC-PRINTER-01 (MEM-5B-216857)\\nNOTICE    : Circulation Slip & Fine Notice\\nDATE      : 2026-11-10T01:30:59.209Z\\n----------------------------------------\\nPlease retain this slip for your records.\\n========================================\",\"lastAttemptAt\":\"2026-11-10T01:30:59.209Z\"},\"c96d6aae-6271-4886-9e49-b8181e349483\":{\"notificationId\":\"c96d6aae-6271-4886-9e49-b8181e349483\",\"retryCount\":1,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockRestSmsGatewayAdapter (Provider-Neutral)\",\"providerMessageId\":\"SM-FC9BE7F7-E69\",\"renderedSlipOrPayload\":\"[SMARTLIB SMS -> +919876543210] Overdue Alert: Book ACC-5B is overdue.\",\"lastAttemptAt\":\"2026-11-10T01:31:06.429Z\"},\"0b46920c-e268-49ce-86b6-52c1e8c0665f\":{\"notificationId\":\"0b46920c-e268-49ce-86b6-52c1e8c0665f\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockSmtpEmailAdapter (Provider-Neutral)\",\"providerMessageId\":\"<mock-email-cdbf5721-207f-4c0f-8379-2a9eda02a300@smartlib.local>\",\"renderedSlipOrPayload\":\"To: siddharth.669380@smartlib.local\\nSubject: Upcoming Due Date Reminder\\n\\nYour borrowed monograph is due in 2 days.\",\"lastAttemptAt\":\"2026-11-10T01:55:07.419Z\"},\"a86d415d-ffe4-493f-8b2f-e89e80505804\":{\"notificationId\":\"a86d415d-ffe4-493f-8b2f-e89e80505804\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockThermalSlipPrintAdapter (Provider-Neutral)\",\"providerMessageId\":\"PRN-JOB-1794275711883\",\"renderedSlipOrPayload\":\"========================================\\n       SMARTLIB INSTITUTIONAL SLIP      \\n========================================\\nRECIPIENT : CIRC-PRINTER-01 (MEM-5B-669380)\\nNOTICE    : Circulation Slip & Fine Notice\\nDATE      : 2026-11-10T01:55:11.883Z\\n----------------------------------------\\nPlease retain this slip for your records.\\n========================================\",\"lastAttemptAt\":\"2026-11-10T01:55:11.883Z\"},\"ad8365d9-b1eb-45b0-aaf1-3548d9560f88\":{\"notificationId\":\"ad8365d9-b1eb-45b0-aaf1-3548d9560f88\",\"retryCount\":1,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockRestSmsGatewayAdapter (Provider-Neutral)\",\"providerMessageId\":\"SM-8710FEB1-91F\",\"renderedSlipOrPayload\":\"[SMARTLIB SMS -> +919876543210] Overdue Alert: Book ACC-5B is overdue.\",\"lastAttemptAt\":\"2026-11-10T01:55:19.196Z\"},\"250ae63e-19ae-49c2-8cd7-3cf737ff4926\":{\"notificationId\":\"250ae63e-19ae-49c2-8cd7-3cf737ff4926\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockSmtpEmailAdapter (Provider-Neutral)\",\"providerMessageId\":\"<mock-email-4775c790-ef53-4276-b7d5-c0666aa0814f@smartlib.local>\",\"renderedSlipOrPayload\":\"To: siddharth.726671@smartlib.local\\nSubject: Upcoming Due Date Reminder\\n\\nYour borrowed monograph is due in 2 days.\",\"lastAttemptAt\":\"2026-11-10T02:12:45.661Z\"},\"648af375-90c4-4d2c-9ddd-b84c35583ea7\":{\"notificationId\":\"648af375-90c4-4d2c-9ddd-b84c35583ea7\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockThermalSlipPrintAdapter (Provider-Neutral)\",\"providerMessageId\":\"PRN-JOB-1794276770588\",\"renderedSlipOrPayload\":\"========================================\\n       SMARTLIB INSTITUTIONAL SLIP      \\n========================================\\nRECIPIENT : CIRC-PRINTER-01 (MEM-5B-726671)\\nNOTICE    : Circulation Slip & Fine Notice\\nDATE      : 2026-11-10T02:12:50.587Z\\n----------------------------------------\\nPlease retain this slip for your records.\\n========================================\",\"lastAttemptAt\":\"2026-11-10T02:12:50.588Z\"},\"ed7bd09e-8bab-44d4-875e-d0e25bc566ab\":{\"notificationId\":\"ed7bd09e-8bab-44d4-875e-d0e25bc566ab\",\"retryCount\":1,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockRestSmsGatewayAdapter (Provider-Neutral)\",\"providerMessageId\":\"SM-2F051311-B94\",\"renderedSlipOrPayload\":\"[SMARTLIB SMS -> +919876543210] Overdue Alert: Book ACC-5B is overdue.\",\"lastAttemptAt\":\"2026-11-10T02:12:58.284Z\"},\"6a3c3ccb-5c61-4f34-b96d-2662b57dc825\":{\"notificationId\":\"6a3c3ccb-5c61-4f34-b96d-2662b57dc825\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockSmtpEmailAdapter (Provider-Neutral)\",\"providerMessageId\":\"<mock-email-e80778f7-e0bf-4fa0-b50c-d0a558d11751@smartlib.local>\",\"renderedSlipOrPayload\":\"To: siddharth.095314@smartlib.local\\nSubject: Upcoming Due Date Reminder\\n\\nYour borrowed monograph is due in 2 days.\",\"lastAttemptAt\":\"2026-11-10T02:35:35.794Z\"},\"d18f15ce-3ce3-4cfe-9f94-65b5502da1d0\":{\"notificationId\":\"d18f15ce-3ce3-4cfe-9f94-65b5502da1d0\",\"retryCount\":0,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockThermalSlipPrintAdapter (Provider-Neutral)\",\"providerMessageId\":\"PRN-JOB-1794278140382\",\"renderedSlipOrPayload\":\"========================================\\n       SMARTLIB INSTITUTIONAL SLIP      \\n========================================\\nRECIPIENT : CIRC-PRINTER-01 (MEM-5B-095314)\\nNOTICE    : Circulation Slip & Fine Notice\\nDATE      : 2026-11-10T02:35:40.382Z\\n----------------------------------------\\nPlease retain this slip for your records.\\n========================================\",\"lastAttemptAt\":\"2026-11-10T02:35:40.382Z\"},\"ed64544e-5eae-4125-9229-7019a44286cd\":{\"notificationId\":\"ed64544e-5eae-4125-9229-7019a44286cd\",\"retryCount\":1,\"maxRetries\":3,\"lastError\":null,\"providerName\":\"MockRestSmsGatewayAdapter (Provider-Neutral)\",\"providerMessageId\":\"SM-2B77411A-58E\",\"renderedSlipOrPayload\":\"[SMARTLIB SMS -> +919876543210] Overdue Alert: Book ACC-5B is overdue.\",\"lastAttemptAt\":\"2026-11-10T02:35:50.770Z\"}}",
+        "dataType": "JSON",
+        "category": "NOTIFICATIONS",
+        "description": "Notification retry and provider telemetry metadata",
+        "updatedByUserId": "c3df3960-2117-4b42-8a07-fa747e1b6f8f",
+        "updatedAt": "2026-11-10T02:35:51.298Z"
+      },
+      {
+        "id": "a6e3f13e-f93f-41e8-9d7a-285553bc93a4",
+        "configKey": "DEPLOY_LAST_KNOWN_GOOD_MANIFEST",
+        "configValue": "{\"packageId\":\"smartlib-offline-release-1.4.0\",\"appVersion\":\"1.4.0\",\"minSupportedUpgradeVersion\":\"1.0.0\",\"buildTimestamp\":\"2026-11-09T10:00:00.000Z\",\"components\":{\"frontendVersion\":\"1.4.0\",\"backendVersion\":\"1.4.0\",\"rfidMiddlewareVersion\":\"1.2.0\",\"databaseSchemaVersion\":\"2026.11.phase4f\"},\"requiredRuntimes\":{\"nodeMinVersion\":\"20.0.0\",\"pythonMinVersion\":\"3.11.0\",\"postgresqlMinVersion\":\"15.0\",\"supportedOs\":[\"Windows 11\",\"Windows Server 2022\",\"Linux x64\"]},\"migrations\":{\"requiresSchemaMigration\":false,\"backwardCompatible\":true,\"destructiveChanges\":false,\"migrationFiles\":[\"0001_initial_schema.sql\",\"0002_phase4_indexes.sql\"]},\"checksums\":{\"frontendBundle\":{\"archiveName\":\"smartlib-frontend-dist-1.4.0.tar.gz\",\"sha256\":\"2a3f06790f90e5a45ee1df19a698ec4d7aa51dab5edaea86735163a62f7fe459\",\"sizeBytes\":1314048},\"backendBundle\":{\"archiveName\":\"smartlib-backend-dist-1.4.0.tar.gz\",\"sha256\":\"fae6c9262f8d50467b0bc66fb1d703dedecb6481802d488bf3be0bc30739b045\",\"sizeBytes\":842752},\"rfidMiddlewareBundle\":{\"archiveName\":\"smartlib-rfid-service-1.2.0.tar.gz\",\"sha256\":\"fe18e1f1ad91c81e3d04fdd81aa35189c4ac3fd5a712d2de0a0add2264338218\",\"sizeBytes\":412672},\"databaseSchemaBundle\":{\"archiveName\":\"smartlib-prisma-schema-2026.11.tar.gz\",\"sha256\":\"820dea27aa31050e837fff973d056db6fe7424edd111f2f6aa481d222f5bd3aa\",\"sizeBytes\":38912}},\"releaseNotes\":[\"Phase 4A–4E consolidated enterprise release\",\"Phase 4F offline installation, pre-update backup verification, controlled update state machine, and rollback engine\"]}",
+        "dataType": "JSON",
+        "category": "DEPLOYMENT",
+        "description": "Last known-good version manifest",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:26:27.791Z"
+      },
+      {
+        "id": "6ed5a315-074d-474d-ae1f-4484ea33bc24",
+        "configKey": "serials.journals.v1",
+        "configValue": "[{\"id\":\"b4c25d51-a81c-4514-8620-f0aecc83699c\",\"issn\":\"0449-497X\",\"title\":\"Journal of Library Automation 044978\",\"publisher\":\"Institutional Serials Press\",\"subject\":\"Library Automation\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2027-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":14500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-11-10T02:17:58.885Z\",\"updatedAt\":\"2026-11-10T02:18:05.810Z\"},{\"id\":\"d8e609dd-26ea-4a87-b29d-4198862dbbb2\",\"issn\":\"8177-774X\",\"title\":\"Journal of Library Automation 817747\",\"publisher\":\"Institutional Serials Press\",\"subject\":\"Library Automation\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2027-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":14500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-11-10T01:57:25.283Z\",\"updatedAt\":\"2026-11-10T01:57:29.952Z\"},{\"id\":\"379ce391-8110-4500-8b14-a755f5cfd99e\",\"issn\":\"3626-262X\",\"title\":\"Journal of Library Automation 362628\",\"publisher\":\"Institutional Serials Press\",\"subject\":\"Library Automation\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2027-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":14500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-11-10T01:33:11.926Z\",\"updatedAt\":\"2026-11-10T01:33:16.507Z\"},{\"id\":\"025d85fa-2dde-48a1-9625-3ea27fda6237\",\"issn\":\"5417-175X\",\"title\":\"Journal of Library Automation 541756\",\"publisher\":\"Institutional Serials Press\",\"subject\":\"Library Automation\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2027-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":14500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-11-09T19:46:08.210Z\",\"updatedAt\":\"2026-11-09T19:46:12.573Z\"},{\"id\":\"88aeeac9-8614-458b-b009-fe0c93768bdf\",\"issn\":\"8009-098X\",\"title\":\"Journal of Library Automation 800989\",\"publisher\":\"Institutional Serials Press\",\"subject\":\"Library Automation\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2027-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":14500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-11-09T19:00:27.445Z\",\"updatedAt\":\"2026-11-09T19:00:31.793Z\"},{\"id\":\"695b283f-1fcf-418e-b7a6-06c8bd24d292\",\"issn\":\"4092-924X\",\"title\":\"Journal of Library Automation 409240\",\"publisher\":\"Institutional Serials Press\",\"subject\":\"Library Automation\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2027-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":14500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-11-09T18:53:52.348Z\",\"updatedAt\":\"2026-11-09T18:53:56.531Z\"},{\"id\":\"da510535-9cff-4ff8-8f67-24073941b739\",\"issn\":\"2342-425X\",\"title\":\"Journal of Library Automation 234256\",\"publisher\":\"Institutional Serials Press\",\"subject\":\"Library Automation\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2027-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":14500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-11-09T18:50:56.129Z\",\"updatedAt\":\"2026-11-09T18:51:00.833Z\"},{\"id\":\"63df9bde-0e1d-4a7c-963c-1d101811d1d2\",\"issn\":\"0219-192X\",\"title\":\"Journal of Library Automation 021927\",\"publisher\":\"Institutional Serials Press\",\"subject\":\"Library Automation\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2027-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":14500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-11-09T16:00:50.521Z\",\"updatedAt\":\"2026-11-09T16:00:55.401Z\"},{\"id\":\"347654dd-ab1b-4586-98a1-00cbc4b009a7\",\"issn\":\"8164-642X\",\"title\":\"Journal of Library Automation 816425\",\"publisher\":\"Institutional Serials Press\",\"subject\":\"Library Automation\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2027-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":14500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-11-09T15:57:27.027Z\",\"updatedAt\":\"2026-11-09T15:57:32.251Z\"},{\"id\":\"feae19fe-8d16-4bad-9a13-cd9c3d21dcab\",\"issn\":\"6311-114X\",\"title\":\"Journal of Library Automation 631147\",\"publisher\":\"Institutional Serials Press\",\"subject\":\"Library Automation\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2027-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":14500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-11-09T15:54:22.087Z\",\"updatedAt\":\"2026-11-09T15:54:27.515Z\"},{\"id\":\"da77ef31-e40d-421b-b531-0b7c34d69d09\",\"issn\":\"4811-111X\",\"title\":\"Journal of Library Automation 481113\",\"publisher\":\"Institutional Serials Press\",\"subject\":\"Library Automation\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2027-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":14500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-11-09T15:51:44.698Z\",\"updatedAt\":\"2026-11-09T15:51:50.634Z\"},{\"id\":\"ser-default-01\",\"issn\":\"0018-9162\",\"title\":\"IEEE Computer Magazine\",\"publisher\":\"IEEE Computer Society\",\"subject\":\"Computer Science & Engineering\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2026-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":1,\"annualSubscriptionCost\":18500,\"shelfLocation\":\"PERIODICALS-RACK-A1\",\"createdAt\":\"2026-01-02T09:00:00.000Z\",\"updatedAt\":\"2026-01-02T09:00:00.000Z\"},{\"id\":\"ser-default-02\",\"issn\":\"0001-0782\",\"title\":\"Communications of the ACM\",\"publisher\":\"Association for Computing Machinery\",\"subject\":\"Information Systems & Algorithms\",\"frequency\":\"MONTHLY\",\"subscriptionStartDate\":\"2026-01-01\",\"subscriptionEndDate\":\"2026-12-31\",\"subscriptionStatus\":\"ACTIVE\",\"renewalCount\":2,\"annualSubscriptionCost\":16200,\"shelfLocation\":\"PERIODICALS-RACK-A2\",\"createdAt\":\"2026-01-02T09:00:00.000Z\",\"updatedAt\":\"2026-01-02T09:00:00.000Z\"}]",
+        "dataType": "JSON",
+        "category": "SERIALS",
+        "description": "Serials store for serials.journals.v1",
+        "updatedByUserId": "676ba1c4-c072-4f6f-a9a0-cd9057da5bc4",
+        "updatedAt": "2026-11-10T02:18:05.810Z"
+      },
+      {
+        "id": "a10489b3-1a56-495c-9e4a-90ecc0ca9ab0",
+        "configKey": "acquisitions.suppliers.v1",
+        "configValue": "[{\"id\":\"f8d06b2d-0f79-4d66-b365-a9aad5c92129\",\"code\":\"SUP-2026-013\",\"name\":\"Phase 5A Academic Supplier 044978\",\"contactPerson\":\"Ananya Rao\",\"email\":\"supplier.044978@academic.example.com\",\"phone\":\"+91-80-40901020\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-11-10T02:17:31.926Z\"},{\"id\":\"710cdf45-6f3d-4fde-ae1d-9d2bd685ae39\",\"code\":\"SUP-2026-012\",\"name\":\"Phase 5A Academic Supplier 817747\",\"contactPerson\":\"Ananya Rao\",\"email\":\"supplier.817747@academic.example.com\",\"phone\":\"+91-80-40901020\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-11-10T01:57:03.540Z\"},{\"id\":\"2822d096-38b5-4dd7-83c6-e6ea9b383101\",\"code\":\"SUP-2026-011\",\"name\":\"Phase 5A Academic Supplier 362628\",\"contactPerson\":\"Ananya Rao\",\"email\":\"supplier.362628@academic.example.com\",\"phone\":\"+91-80-40901020\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-11-10T01:32:48.664Z\"},{\"id\":\"9bd714ad-4eef-4ae4-95b1-b866941e6d6a\",\"code\":\"SUP-2026-010\",\"name\":\"Phase 5A Academic Supplier 541756\",\"contactPerson\":\"Ananya Rao\",\"email\":\"supplier.541756@academic.example.com\",\"phone\":\"+91-80-40901020\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-11-09T19:45:47.524Z\"},{\"id\":\"439c8d77-89d5-4db8-8aae-f9890878ea27\",\"code\":\"SUP-2026-009\",\"name\":\"Phase 5A Academic Supplier 800989\",\"contactPerson\":\"Ananya Rao\",\"email\":\"supplier.800989@academic.example.com\",\"phone\":\"+91-80-40901020\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-11-09T19:00:06.279Z\"},{\"id\":\"16ba863a-42c3-47a6-a92c-698d4a203457\",\"code\":\"SUP-2026-008\",\"name\":\"Phase 5A Academic Supplier 409240\",\"contactPerson\":\"Ananya Rao\",\"email\":\"supplier.409240@academic.example.com\",\"phone\":\"+91-80-40901020\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-11-09T18:53:34.344Z\"},{\"id\":\"31484797-4fd8-4575-9009-82fc3652c2ab\",\"code\":\"SUP-2026-007\",\"name\":\"Phase 5A Academic Supplier 234256\",\"contactPerson\":\"Ananya Rao\",\"email\":\"supplier.234256@academic.example.com\",\"phone\":\"+91-80-40901020\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-11-09T18:50:39.735Z\"},{\"id\":\"7471d8d6-82b6-4a4f-a70d-c80b032a6532\",\"code\":\"SUP-2026-006\",\"name\":\"Phase 5A Academic Supplier 021927\",\"contactPerson\":\"Ananya Rao\",\"email\":\"supplier.021927@academic.example.com\",\"phone\":\"+91-80-40901020\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-11-09T16:00:27.501Z\"},{\"id\":\"68df0ac2-c2dc-4765-a3a3-a7ac0365da89\",\"code\":\"SUP-2026-005\",\"name\":\"Phase 5A Academic Supplier 816425\",\"contactPerson\":\"Ananya Rao\",\"email\":\"supplier.816425@academic.example.com\",\"phone\":\"+91-80-40901020\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-11-09T15:57:03.008Z\"},{\"id\":\"da8bd915-3174-47d2-8b53-72cfa39bea51\",\"code\":\"SUP-2026-004\",\"name\":\"Phase 5A Academic Supplier 631147\",\"contactPerson\":\"Ananya Rao\",\"email\":\"supplier.631147@academic.example.com\",\"phone\":\"+91-80-40901020\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-11-09T15:53:57.001Z\"},{\"id\":\"c7771ab3-fa98-4f07-8a36-83e997802966\",\"code\":\"SUP-2026-003\",\"name\":\"Phase 5A Academic Supplier 481113\",\"contactPerson\":\"Ananya Rao\",\"email\":\"supplier.481113@academic.example.com\",\"phone\":\"+91-80-40901020\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-11-09T15:51:29.030Z\"},{\"id\":\"sup-default-01\",\"code\":\"SUP-2026-001\",\"name\":\"Oxford & Cambridge Academic Distributors\",\"contactPerson\":\"Rajesh Sharma\",\"email\":\"orders@oxcam-academic.example.com\",\"phone\":\"+91-11-40506070\",\"address\":\"Connaught Place, New Delhi\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-01-15T09:00:00.000Z\"},{\"id\":\"sup-default-02\",\"code\":\"SUP-2026-002\",\"name\":\"IEEE & Springer Technical Publications India\",\"contactPerson\":\"Meera Nair\",\"email\":\"library-supply@springer-india.example.com\",\"phone\":\"+91-80-22334455\",\"address\":\"MG Road, Bengaluru\",\"status\":\"ACTIVE\",\"createdAt\":\"2026-01-20T09:00:00.000Z\"}]",
+        "dataType": "JSON",
+        "category": "ACQUISITIONS",
+        "description": "Acquisitions store for acquisitions.suppliers.v1",
+        "updatedByUserId": "676ba1c4-c072-4f6f-a9a0-cd9057da5bc4",
+        "updatedAt": "2026-11-10T02:17:31.930Z"
+      },
+      {
+        "id": "8c07874e-a0e6-405f-94d5-178604a106c3",
+        "configKey": "DEPLOY_CURRENT_MANIFEST",
+        "configValue": "{\"packageId\":\"smartlib-offline-release-1.4.0\",\"appVersion\":\"1.4.0\",\"minSupportedUpgradeVersion\":\"1.0.0\",\"buildTimestamp\":\"2026-11-09T10:00:00.000Z\",\"components\":{\"frontendVersion\":\"1.4.0\",\"backendVersion\":\"1.4.0\",\"rfidMiddlewareVersion\":\"1.2.0\",\"databaseSchemaVersion\":\"2026.11.phase4f\"},\"requiredRuntimes\":{\"nodeMinVersion\":\"20.0.0\",\"pythonMinVersion\":\"3.11.0\",\"postgresqlMinVersion\":\"15.0\",\"supportedOs\":[\"Windows 11\",\"Windows Server 2022\",\"Linux x64\"]},\"migrations\":{\"requiresSchemaMigration\":false,\"backwardCompatible\":true,\"destructiveChanges\":false,\"migrationFiles\":[\"0001_initial_schema.sql\",\"0002_phase4_indexes.sql\"]},\"checksums\":{\"frontendBundle\":{\"archiveName\":\"smartlib-frontend-dist-1.4.0.tar.gz\",\"sha256\":\"2a3f06790f90e5a45ee1df19a698ec4d7aa51dab5edaea86735163a62f7fe459\",\"sizeBytes\":1314048},\"backendBundle\":{\"archiveName\":\"smartlib-backend-dist-1.4.0.tar.gz\",\"sha256\":\"fae6c9262f8d50467b0bc66fb1d703dedecb6481802d488bf3be0bc30739b045\",\"sizeBytes\":842752},\"rfidMiddlewareBundle\":{\"archiveName\":\"smartlib-rfid-service-1.2.0.tar.gz\",\"sha256\":\"fe18e1f1ad91c81e3d04fdd81aa35189c4ac3fd5a712d2de0a0add2264338218\",\"sizeBytes\":412672},\"databaseSchemaBundle\":{\"archiveName\":\"smartlib-prisma-schema-2026.11.tar.gz\",\"sha256\":\"820dea27aa31050e837fff973d056db6fe7424edd111f2f6aa481d222f5bd3aa\",\"sizeBytes\":38912}},\"releaseNotes\":[\"Phase 4A–4E consolidated enterprise release\",\"Phase 4F offline installation, pre-update backup verification, controlled update state machine, and rollback engine\"]}",
+        "dataType": "JSON",
+        "category": "DEPLOYMENT",
+        "description": "System deployment and update lifecycle metadata",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-10T02:26:43.938Z"
+      },
+      {
+        "id": "837fea7f-be1c-4400-98bc-5243b17bb89c",
+        "configKey": "acquisitions.orders.v1",
+        "configValue": "[{\"id\":\"0925c06c-4f4c-47bc-8f7d-a19951cfacd5\",\"orderNumber\":\"PO-2026-057447\",\"supplierId\":\"f8d06b2d-0f79-4d66-b365-a9aad5c92129\",\"supplierName\":\"Phase 5A Academic Supplier 044978\",\"requestId\":\"83961c2f-8c0d-448b-8d31-1f7473b1f202\",\"status\":\"RECEIVED\",\"items\":[{\"id\":\"e1582270-9ca9-4f1e-aa7c-cde88fad91f3\",\"title\":\"Distributed Systems Engineering Vol 044978\",\"isbn13\":\"9789300449781\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"edition\":\"1st Edition\",\"publicationYear\":2026,\"callNumber\":\"005.1 ACQ\",\"orderedQuantity\":2,\"receivedQuantity\":2,\"pendingQuantity\":0,\"unitPrice\":850,\"shelfLocation\":\"ACQ-NEW-ARRIVALS\",\"isReferenceOnly\":false,\"generatedAccessionNumbers\":[\"ACC-2026-00088\",\"ACC-2026-00089\"],\"cataloguedBookId\":\"0e471c3a-9a8b-40e6-b22c-99bf13f69431\"}],\"totalOrderedQuantity\":2,\"totalReceivedQuantity\":2,\"totalPendingQuantity\":0,\"totalAmount\":1700,\"createdByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-10T02:17:37.447Z\",\"updatedAt\":\"2026-11-10T02:17:52.527Z\",\"receivingHistory\":[{\"receivedAt\":\"2026-11-10T02:17:48.268Z\",\"receivedByEmail\":\"librarian@smartlib.ac.in\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00088\"],\"bookIds\":[\"0e471c3a-9a8b-40e6-b22c-99bf13f69431\"]},{\"receivedAt\":\"2026-11-10T02:17:52.527Z\",\"receivedByEmail\":\"librarian@smartlib.ac.in\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00089\"],\"bookIds\":[\"0e471c3a-9a8b-40e6-b22c-99bf13f69431\"]}]},{\"id\":\"4adf660b-eb84-4c96-9649-7a3135af2813\",\"orderNumber\":\"PO-2026-827716\",\"supplierId\":\"710cdf45-6f3d-4fde-ae1d-9d2bd685ae39\",\"supplierName\":\"Phase 5A Academic Supplier 817747\",\"requestId\":\"152dae21-1a0c-4f18-9e00-405c0e40ef7b\",\"status\":\"RECEIVED\",\"items\":[{\"id\":\"bf434538-e4de-4bc2-963e-7ec65ec9caca\",\"title\":\"Distributed Systems Engineering Vol 817747\",\"isbn13\":\"9789308177471\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"edition\":\"1st Edition\",\"publicationYear\":2026,\"callNumber\":\"005.1 ACQ\",\"orderedQuantity\":2,\"receivedQuantity\":2,\"pendingQuantity\":0,\"unitPrice\":850,\"shelfLocation\":\"ACQ-NEW-ARRIVALS\",\"isReferenceOnly\":false,\"generatedAccessionNumbers\":[\"ACC-2026-00079\",\"ACC-2026-00080\"],\"cataloguedBookId\":\"53c55f1e-4221-4c94-8718-531a9d39ccf7\"}],\"totalOrderedQuantity\":2,\"totalReceivedQuantity\":2,\"totalPendingQuantity\":0,\"totalAmount\":1700,\"createdByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-10T01:57:07.716Z\",\"updatedAt\":\"2026-11-10T01:57:20.714Z\",\"receivingHistory\":[{\"receivedAt\":\"2026-11-10T01:57:17.211Z\",\"receivedByEmail\":\"librarian@smartlib.ac.in\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00079\"],\"bookIds\":[\"53c55f1e-4221-4c94-8718-531a9d39ccf7\"]},{\"receivedAt\":\"2026-11-10T01:57:20.714Z\",\"receivedByEmail\":\"librarian@smartlib.ac.in\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00080\"],\"bookIds\":[\"53c55f1e-4221-4c94-8718-531a9d39ccf7\"]}]},{\"id\":\"fb1da65b-d900-4081-91cf-9fba1e6ba1fb\",\"orderNumber\":\"PO-2026-372888\",\"supplierId\":\"2822d096-38b5-4dd7-83c6-e6ea9b383101\",\"supplierName\":\"Phase 5A Academic Supplier 362628\",\"requestId\":\"8d92d534-34d1-4897-bfb9-af1bab814e02\",\"status\":\"RECEIVED\",\"items\":[{\"id\":\"1d0c6ca8-9190-48ed-9c69-c87bd966a142\",\"title\":\"Distributed Systems Engineering Vol 362628\",\"isbn13\":\"9789303626281\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"edition\":\"1st Edition\",\"publicationYear\":2026,\"callNumber\":\"005.1 ACQ\",\"orderedQuantity\":2,\"receivedQuantity\":2,\"pendingQuantity\":0,\"unitPrice\":850,\"shelfLocation\":\"ACQ-NEW-ARRIVALS\",\"isReferenceOnly\":false,\"generatedAccessionNumbers\":[\"ACC-2026-00068\",\"ACC-2026-00069\"],\"cataloguedBookId\":\"7f03e14d-b4cd-482f-aeab-3f29e66fdf8f\"}],\"totalOrderedQuantity\":2,\"totalReceivedQuantity\":2,\"totalPendingQuantity\":0,\"totalAmount\":1700,\"createdByEmail\":\"librarian@smartlib.institution.edu\",\"createdAt\":\"2026-11-10T01:32:52.888Z\",\"updatedAt\":\"2026-11-10T01:33:06.343Z\",\"receivingHistory\":[{\"receivedAt\":\"2026-11-10T01:33:02.720Z\",\"receivedByEmail\":\"librarian@smartlib.institution.edu\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00068\"],\"bookIds\":[\"7f03e14d-b4cd-482f-aeab-3f29e66fdf8f\"]},{\"receivedAt\":\"2026-11-10T01:33:06.343Z\",\"receivedByEmail\":\"librarian@smartlib.institution.edu\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00069\"],\"bookIds\":[\"7f03e14d-b4cd-482f-aeab-3f29e66fdf8f\"]}]},{\"id\":\"0ea262e2-9d88-4283-b43e-5a7d7a80a4c6\",\"orderNumber\":\"PO-2026-551373\",\"supplierId\":\"9bd714ad-4eef-4ae4-95b1-b866941e6d6a\",\"supplierName\":\"Phase 5A Academic Supplier 541756\",\"requestId\":\"c5727618-3f34-4164-a4ce-fd186cc14abf\",\"status\":\"RECEIVED\",\"items\":[{\"id\":\"bda8203b-c738-4761-a3d3-dc21a2f60833\",\"title\":\"Distributed Systems Engineering Vol 541756\",\"isbn13\":\"9789305417561\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"edition\":\"1st Edition\",\"publicationYear\":2026,\"callNumber\":\"005.1 ACQ\",\"orderedQuantity\":2,\"receivedQuantity\":2,\"pendingQuantity\":0,\"unitPrice\":850,\"shelfLocation\":\"ACQ-NEW-ARRIVALS\",\"isReferenceOnly\":false,\"generatedAccessionNumbers\":[\"ACC-2026-00059\",\"ACC-2026-00060\"],\"cataloguedBookId\":\"9352bfe1-1daa-46f5-93e5-f513293c5a1a\"}],\"totalOrderedQuantity\":2,\"totalReceivedQuantity\":2,\"totalPendingQuantity\":0,\"totalAmount\":1700,\"createdByEmail\":\"librarian@smartlib.institution.edu\",\"createdAt\":\"2026-11-09T19:45:51.373Z\",\"updatedAt\":\"2026-11-09T19:46:04.164Z\",\"receivingHistory\":[{\"receivedAt\":\"2026-11-09T19:46:00.852Z\",\"receivedByEmail\":\"librarian@smartlib.institution.edu\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00059\"],\"bookIds\":[\"9352bfe1-1daa-46f5-93e5-f513293c5a1a\"]},{\"receivedAt\":\"2026-11-09T19:46:04.164Z\",\"receivedByEmail\":\"librarian@smartlib.institution.edu\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00060\"],\"bookIds\":[\"9352bfe1-1daa-46f5-93e5-f513293c5a1a\"]}]},{\"id\":\"768b5709-b971-4949-8525-1b1af7ad784c\",\"orderNumber\":\"PO-2026-810132\",\"supplierId\":\"439c8d77-89d5-4db8-8aae-f9890878ea27\",\"supplierName\":\"Phase 5A Academic Supplier 800989\",\"requestId\":\"95c5f7a6-441b-45b8-8022-f3cbfff40e90\",\"status\":\"RECEIVED\",\"items\":[{\"id\":\"046b7adc-032a-4df8-9251-b94784a429b1\",\"title\":\"Distributed Systems Engineering Vol 800989\",\"isbn13\":\"9789308009891\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"edition\":\"1st Edition\",\"publicationYear\":2026,\"callNumber\":\"005.1 ACQ\",\"orderedQuantity\":2,\"receivedQuantity\":2,\"pendingQuantity\":0,\"unitPrice\":850,\"shelfLocation\":\"ACQ-NEW-ARRIVALS\",\"isReferenceOnly\":false,\"generatedAccessionNumbers\":[\"ACC-2026-00053\",\"ACC-2026-00054\"],\"cataloguedBookId\":\"514ad2ce-8ca5-481e-a9d8-c4743da76ac8\"}],\"totalOrderedQuantity\":2,\"totalReceivedQuantity\":2,\"totalPendingQuantity\":0,\"totalAmount\":1700,\"createdByEmail\":\"librarian@smartlib.institution.edu\",\"createdAt\":\"2026-11-09T19:00:10.132Z\",\"updatedAt\":\"2026-11-09T19:00:23.230Z\",\"receivingHistory\":[{\"receivedAt\":\"2026-11-09T19:00:19.875Z\",\"receivedByEmail\":\"librarian@smartlib.institution.edu\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00053\"],\"bookIds\":[\"514ad2ce-8ca5-481e-a9d8-c4743da76ac8\"]},{\"receivedAt\":\"2026-11-09T19:00:23.230Z\",\"receivedByEmail\":\"librarian@smartlib.institution.edu\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00054\"],\"bookIds\":[\"514ad2ce-8ca5-481e-a9d8-c4743da76ac8\"]}]},{\"id\":\"3a61787f-b3bb-4bdc-9f7c-c201d83fc83f\",\"orderNumber\":\"PO-2026-418170\",\"supplierId\":\"16ba863a-42c3-47a6-a92c-698d4a203457\",\"supplierName\":\"Phase 5A Academic Supplier 409240\",\"requestId\":\"4aae69de-0571-4667-b390-38f87a478250\",\"status\":\"ORDERED\",\"items\":[{\"id\":\"2dccceb9-62e7-45af-abcf-aab065b23e13\",\"title\":\"Distributed Systems Engineering Vol 409240\",\"isbn13\":\"9789304092401\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"edition\":\"1st Edition\",\"publicationYear\":2026,\"callNumber\":\"005.1 ACQ\",\"orderedQuantity\":2,\"receivedQuantity\":0,\"pendingQuantity\":2,\"unitPrice\":850,\"shelfLocation\":\"ACQ-NEW-ARRIVALS\",\"isReferenceOnly\":false,\"generatedAccessionNumbers\":[]}],\"totalOrderedQuantity\":2,\"totalReceivedQuantity\":0,\"totalPendingQuantity\":2,\"totalAmount\":1700,\"createdByEmail\":\"librarian.phase5b@smartlib.local\",\"createdAt\":\"2026-11-09T18:53:38.170Z\",\"updatedAt\":\"2026-11-09T18:53:38.170Z\",\"receivingHistory\":[]},{\"id\":\"110c7672-1de0-4d9a-a751-3a1f47c36738\",\"orderNumber\":\"PO-2026-243599\",\"supplierId\":\"31484797-4fd8-4575-9009-82fc3652c2ab\",\"supplierName\":\"Phase 5A Academic Supplier 234256\",\"requestId\":\"8f357bab-c252-49ce-8e03-53405955e0f4\",\"status\":\"ORDERED\",\"items\":[{\"id\":\"98b896f1-c55d-4417-999c-cd49e15b4ddb\",\"title\":\"Distributed Systems Engineering Vol 234256\",\"isbn13\":\"9789302342561\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"edition\":\"1st Edition\",\"publicationYear\":2026,\"callNumber\":\"005.1 ACQ\",\"orderedQuantity\":2,\"receivedQuantity\":0,\"pendingQuantity\":2,\"unitPrice\":850,\"shelfLocation\":\"ACQ-NEW-ARRIVALS\",\"isReferenceOnly\":false,\"generatedAccessionNumbers\":[]}],\"totalOrderedQuantity\":2,\"totalReceivedQuantity\":0,\"totalPendingQuantity\":2,\"totalAmount\":1700,\"createdByEmail\":\"librarian.phase5b@smartlib.local\",\"createdAt\":\"2026-11-09T18:50:43.599Z\",\"updatedAt\":\"2026-11-09T18:50:43.599Z\",\"receivingHistory\":[]},{\"id\":\"9eabdefd-2d3e-4da1-b698-98ade001f756\",\"orderNumber\":\"PO-2026-031952\",\"supplierId\":\"7471d8d6-82b6-4a4f-a70d-c80b032a6532\",\"supplierName\":\"Phase 5A Academic Supplier 021927\",\"requestId\":\"3ab58d75-9c8d-45d3-9f5a-55a8543a82a9\",\"status\":\"RECEIVED\",\"items\":[{\"id\":\"60e5906e-34ae-40f3-bf4e-d99a33dd6d10\",\"title\":\"Distributed Systems Engineering Vol 021927\",\"isbn13\":\"9789300219271\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"edition\":\"1st Edition\",\"publicationYear\":2026,\"callNumber\":\"005.1 ACQ\",\"orderedQuantity\":2,\"receivedQuantity\":2,\"pendingQuantity\":0,\"unitPrice\":850,\"shelfLocation\":\"ACQ-NEW-ARRIVALS\",\"isReferenceOnly\":false,\"generatedAccessionNumbers\":[\"ACC-2026-00028\",\"ACC-2026-00029\"],\"cataloguedBookId\":\"9916d4e7-ba51-4c86-8086-2abe41f1d340\"}],\"totalOrderedQuantity\":2,\"totalReceivedQuantity\":2,\"totalPendingQuantity\":0,\"totalAmount\":1700,\"createdByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-09T16:00:31.952Z\",\"updatedAt\":\"2026-11-09T16:00:45.994Z\",\"receivingHistory\":[{\"receivedAt\":\"2026-11-09T16:00:42.311Z\",\"receivedByEmail\":\"librarian@smartlib.ac.in\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00028\"],\"bookIds\":[\"9916d4e7-ba51-4c86-8086-2abe41f1d340\"]},{\"receivedAt\":\"2026-11-09T16:00:45.994Z\",\"receivedByEmail\":\"librarian@smartlib.ac.in\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00029\"],\"bookIds\":[\"9916d4e7-ba51-4c86-8086-2abe41f1d340\"]}]},{\"id\":\"341c5e90-cad8-4815-8391-2d24bf39ddb2\",\"orderNumber\":\"PO-2026-827370\",\"supplierId\":\"68df0ac2-c2dc-4765-a3a3-a7ac0365da89\",\"supplierName\":\"Phase 5A Academic Supplier 816425\",\"requestId\":\"108253f7-5c1d-4c54-8259-892eeed59a32\",\"status\":\"RECEIVED\",\"items\":[{\"id\":\"47a992bf-5c9c-448c-b7e1-30708658d76d\",\"title\":\"Distributed Systems Engineering Vol 816425\",\"isbn13\":\"9789308164251\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"edition\":\"1st Edition\",\"publicationYear\":2026,\"callNumber\":\"005.1 ACQ\",\"orderedQuantity\":2,\"receivedQuantity\":2,\"pendingQuantity\":0,\"unitPrice\":850,\"shelfLocation\":\"ACQ-NEW-ARRIVALS\",\"isReferenceOnly\":false,\"generatedAccessionNumbers\":[\"ACC-2026-00028\",\"ACC-2026-00029\"],\"cataloguedBookId\":\"0ee025e3-9348-4bb2-b73d-06f3bd74f743\"}],\"totalOrderedQuantity\":2,\"totalReceivedQuantity\":2,\"totalPendingQuantity\":0,\"totalAmount\":1700,\"createdByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-09T15:57:07.370Z\",\"updatedAt\":\"2026-11-09T15:57:22.200Z\",\"receivingHistory\":[{\"receivedAt\":\"2026-11-09T15:57:18.632Z\",\"receivedByEmail\":\"librarian@smartlib.ac.in\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00028\"],\"bookIds\":[\"0ee025e3-9348-4bb2-b73d-06f3bd74f743\"]},{\"receivedAt\":\"2026-11-09T15:57:22.200Z\",\"receivedByEmail\":\"librarian@smartlib.ac.in\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00029\"],\"bookIds\":[\"0ee025e3-9348-4bb2-b73d-06f3bd74f743\"]}]},{\"id\":\"daed1a36-3859-4d6b-ad78-2ec5c8109fb2\",\"orderNumber\":\"PO-2026-641506\",\"supplierId\":\"da8bd915-3174-47d2-8b53-72cfa39bea51\",\"supplierName\":\"Phase 5A Academic Supplier 631147\",\"requestId\":\"10affd7b-4d1e-4e0b-84ff-19b3a7de1f63\",\"status\":\"RECEIVED\",\"items\":[{\"id\":\"f005e218-397d-44f7-b565-a2bffc613c1c\",\"title\":\"Distributed Systems Engineering Vol 631147\",\"isbn13\":\"9789306311471\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"edition\":\"1st Edition\",\"publicationYear\":2026,\"callNumber\":\"005.1 ACQ\",\"orderedQuantity\":2,\"receivedQuantity\":2,\"pendingQuantity\":0,\"unitPrice\":850,\"shelfLocation\":\"ACQ-NEW-ARRIVALS\",\"isReferenceOnly\":false,\"generatedAccessionNumbers\":[\"ACC-2026-00028\",\"ACC-2026-00029\"],\"cataloguedBookId\":\"66ef1bcb-dea8-4cec-a63b-fec91be8af2e\"}],\"totalOrderedQuantity\":2,\"totalReceivedQuantity\":2,\"totalPendingQuantity\":0,\"totalAmount\":1700,\"createdByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-09T15:54:01.506Z\",\"updatedAt\":\"2026-11-09T15:54:17.035Z\",\"receivingHistory\":[{\"receivedAt\":\"2026-11-09T15:54:13.086Z\",\"receivedByEmail\":\"librarian@smartlib.ac.in\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00028\"],\"bookIds\":[\"66ef1bcb-dea8-4cec-a63b-fec91be8af2e\"]},{\"receivedAt\":\"2026-11-09T15:54:17.035Z\",\"receivedByEmail\":\"librarian@smartlib.ac.in\",\"receivedCount\":1,\"accessionNumbers\":[\"ACC-2026-00029\"],\"bookIds\":[\"66ef1bcb-dea8-4cec-a63b-fec91be8af2e\"]}]},{\"id\":\"c7aca622-db47-4112-a8bb-6b1becb883db\",\"orderNumber\":\"PO-2026-494558\",\"supplierId\":\"c7771ab3-fa98-4f07-8a36-83e997802966\",\"supplierName\":\"Phase 5A Academic Supplier 481113\",\"requestId\":\"1a9ef468-3262-4e8a-8733-a2e63dd7c49b\",\"status\":\"ORDERED\",\"items\":[{\"id\":\"cac1ad5f-0db5-41f6-96d7-57928cb7fbc3\",\"title\":\"Distributed Systems Engineering Vol 481113\",\"isbn13\":\"9789304811131\",\"authors\":[\"Prof. Leslie Lamport\"],\"publisherName\":\"MIT Press\",\"categoryName\":\"Computer Science\",\"edition\":\"1st Edition\",\"publicationYear\":2026,\"callNumber\":\"005.1 ACQ\",\"orderedQuantity\":2,\"receivedQuantity\":0,\"pendingQuantity\":2,\"unitPrice\":850,\"shelfLocation\":\"ACQ-NEW-ARRIVALS\",\"isReferenceOnly\":false,\"generatedAccessionNumbers\":[]}],\"totalOrderedQuantity\":2,\"totalReceivedQuantity\":0,\"totalPendingQuantity\":2,\"totalAmount\":1700,\"createdByEmail\":\"librarian@smartlib.ac.in\",\"createdAt\":\"2026-11-09T15:51:34.558Z\",\"updatedAt\":\"2026-11-09T15:51:34.558Z\",\"receivingHistory\":[]}]",
+        "dataType": "JSON",
+        "category": "ACQUISITIONS",
+        "description": "Acquisitions store for acquisitions.orders.v1",
+        "updatedByUserId": "676ba1c4-c072-4f6f-a9a0-cd9057da5bc4",
+        "updatedAt": "2026-11-10T02:17:53.096Z"
+      },
+      {
+        "id": "f47132b6-a41f-431a-acd6-6689850d7690",
+        "configKey": "PHASE5B_NOTIFICATION_PREFERENCES",
+        "configValue": "{\"dac8ecb2-f3ee-4578-a55d-f0b3657e3103\":{\"memberId\":\"dac8ecb2-f3ee-4578-a55d-f0b3657e3103\",\"emailEnabled\":true,\"smsEnabled\":false,\"printEnabled\":true,\"inAppEnabled\":true,\"enabledTypes\":[\"DUE_REMINDER\",\"OVERDUE_ALERT\",\"FINE_NOTICE\",\"HOLD_AVAILABLE\",\"GATE_ALARM\",\"SYSTEM_ALERT\"],\"updatedAt\":\"2026-11-09T16:33:16.108Z\"},\"12f0cca5-e8fd-4e6b-b348-de3b1c262183\":{\"memberId\":\"12f0cca5-e8fd-4e6b-b348-de3b1c262183\",\"emailEnabled\":true,\"smsEnabled\":false,\"printEnabled\":true,\"inAppEnabled\":true,\"enabledTypes\":[\"DUE_REMINDER\",\"OVERDUE_ALERT\",\"FINE_NOTICE\",\"HOLD_AVAILABLE\",\"GATE_ALARM\",\"SYSTEM_ALERT\"],\"updatedAt\":\"2026-11-09T16:36:36.948Z\"},\"008975a8-0451-4f7d-b6ee-540dbf9802a1\":{\"memberId\":\"008975a8-0451-4f7d-b6ee-540dbf9802a1\",\"emailEnabled\":true,\"smsEnabled\":false,\"printEnabled\":true,\"inAppEnabled\":true,\"enabledTypes\":[\"DUE_REMINDER\",\"OVERDUE_ALERT\",\"FINE_NOTICE\",\"HOLD_AVAILABLE\",\"GATE_ALARM\",\"SYSTEM_ALERT\"],\"updatedAt\":\"2026-11-09T16:39:37.628Z\"},\"a96bedfe-c278-427e-92f1-d6fcf6477bff\":{\"memberId\":\"a96bedfe-c278-427e-92f1-d6fcf6477bff\",\"emailEnabled\":true,\"smsEnabled\":false,\"printEnabled\":true,\"inAppEnabled\":true,\"enabledTypes\":[\"DUE_REMINDER\",\"OVERDUE_ALERT\",\"FINE_NOTICE\",\"HOLD_AVAILABLE\",\"GATE_ALARM\",\"SYSTEM_ALERT\"],\"updatedAt\":\"2026-11-09T18:51:22.152Z\"},\"a8fa754d-3de2-4b76-a0ee-f3a1f05ae19b\":{\"memberId\":\"a8fa754d-3de2-4b76-a0ee-f3a1f05ae19b\",\"emailEnabled\":true,\"smsEnabled\":false,\"printEnabled\":true,\"inAppEnabled\":true,\"enabledTypes\":[\"DUE_REMINDER\",\"OVERDUE_ALERT\",\"FINE_NOTICE\",\"HOLD_AVAILABLE\",\"GATE_ALARM\",\"SYSTEM_ALERT\"],\"updatedAt\":\"2026-11-09T18:54:17.866Z\"},\"6e8168c6-4237-4e1d-b328-895e97980169\":{\"memberId\":\"6e8168c6-4237-4e1d-b328-895e97980169\",\"emailEnabled\":true,\"smsEnabled\":false,\"printEnabled\":true,\"inAppEnabled\":true,\"enabledTypes\":[\"DUE_REMINDER\",\"OVERDUE_ALERT\",\"FINE_NOTICE\",\"HOLD_AVAILABLE\",\"GATE_ALARM\",\"SYSTEM_ALERT\"],\"updatedAt\":\"2026-11-09T19:44:27.863Z\"},\"d0faa04b-fa8c-4ddb-adf7-d973f1ca3b85\":{\"memberId\":\"d0faa04b-fa8c-4ddb-adf7-d973f1ca3b85\",\"emailEnabled\":true,\"smsEnabled\":false,\"printEnabled\":true,\"inAppEnabled\":true,\"enabledTypes\":[\"DUE_REMINDER\",\"OVERDUE_ALERT\",\"FINE_NOTICE\",\"HOLD_AVAILABLE\",\"GATE_ALARM\",\"SYSTEM_ALERT\"],\"updatedAt\":\"2026-11-10T01:31:09.273Z\"},\"02fe42ab-2ad2-4308-9d60-5b49714bbe7e\":{\"memberId\":\"02fe42ab-2ad2-4308-9d60-5b49714bbe7e\",\"emailEnabled\":true,\"smsEnabled\":false,\"printEnabled\":true,\"inAppEnabled\":true,\"enabledTypes\":[\"DUE_REMINDER\",\"OVERDUE_ALERT\",\"FINE_NOTICE\",\"HOLD_AVAILABLE\",\"GATE_ALARM\",\"SYSTEM_ALERT\"],\"updatedAt\":\"2026-11-10T01:55:21.867Z\"},\"f4a1d6bb-3992-4660-ac42-761d6a9b84c1\":{\"memberId\":\"f4a1d6bb-3992-4660-ac42-761d6a9b84c1\",\"emailEnabled\":true,\"smsEnabled\":false,\"printEnabled\":true,\"inAppEnabled\":true,\"enabledTypes\":[\"DUE_REMINDER\",\"OVERDUE_ALERT\",\"FINE_NOTICE\",\"HOLD_AVAILABLE\",\"GATE_ALARM\",\"SYSTEM_ALERT\"],\"updatedAt\":\"2026-11-10T02:13:00.829Z\"},\"805be28f-a43d-476c-94fa-96c75d6c98d8\":{\"memberId\":\"805be28f-a43d-476c-94fa-96c75d6c98d8\",\"emailEnabled\":true,\"smsEnabled\":false,\"printEnabled\":true,\"inAppEnabled\":true,\"enabledTypes\":[\"DUE_REMINDER\",\"OVERDUE_ALERT\",\"FINE_NOTICE\",\"HOLD_AVAILABLE\",\"GATE_ALARM\",\"SYSTEM_ALERT\"],\"updatedAt\":\"2026-11-10T02:35:53.663Z\"}}",
+        "dataType": "JSON",
+        "category": "NOTIFICATIONS",
+        "description": "Per-user notification channel & alert preferences",
+        "updatedByUserId": "c3df3960-2117-4b42-8a07-fa747e1b6f8f",
+        "updatedAt": "2026-11-10T02:35:53.665Z"
+      }
+    ]
+  }
+}

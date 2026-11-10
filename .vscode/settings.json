@@ -1,0 +1,12 @@
+{
+  "python.defaultInterpreterPath": "C:\\Program Files\\Python312\\python.exe",
+  "python.analysis.extraPaths": [
+    "./rfid-service"
+  ],
+  "python.autoComplete.extraPaths": [
+    "./rfid-service"
+  ],
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore"
+}

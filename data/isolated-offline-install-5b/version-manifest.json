@@ -1,0 +1,58 @@
+{
+  "packageId": "smartlib-offline-release-1.4.0",
+  "appVersion": "1.4.0",
+  "minSupportedUpgradeVersion": "1.0.0",
+  "buildTimestamp": "2026-11-09T12:00:00.000Z",
+  "components": {
+    "frontendVersion": "1.4.0",
+    "backendVersion": "1.4.0",
+    "rfidMiddlewareVersion": "1.2.0",
+    "databaseSchemaVersion": "2026.11.phase4f"
+  },
+  "requiredRuntimes": {
+    "nodeMinVersion": "20.0.0",
+    "pythonMinVersion": "3.11.0",
+    "postgresqlMinVersion": "15.0",
+    "supportedOs": [
+      "Windows 11",
+      "Windows Server 2022",
+      "Linux x64"
+    ]
+  },
+  "migrations": {
+    "requiresSchemaMigration": false,
+    "backwardCompatible": true,
+    "destructiveChanges": false,
+    "migrationFiles": [
+      "0001_initial_schema.sql",
+      "0002_phase4_indexes.sql"
+    ]
+  },
+  "checksums": {
+    "frontendBundle": {
+      "archiveName": "smartlib-frontend-dist-1.4.0.tar.gz",
+      "sha256": "874b681d311ae914e3556229743fb7f4bd3ae81ba12989e838896f6b30a45764",
+      "sizeBytes": 1314048
+    },
+    "backendBundle": {
+      "archiveName": "smartlib-backend-dist-1.4.0.tar.gz",
+      "sha256": "6ff2128d50d5370a6fd7c2cbdb973e9e4a127d623b9b23be5c25856a36a1a43f",
+      "sizeBytes": 842752
+    },
+    "rfidMiddlewareBundle": {
+      "archiveName": "smartlib-rfid-service-1.2.0.tar.gz",
+      "sha256": "6bf1358be679a15a1c8ef07bb2d0e7c713bd1306cb708b8eb06fa5d14ef33b2d",
+      "sizeBytes": 412672
+    },
+    "databaseSchemaBundle": {
+      "archiveName": "smartlib-prisma-schema-2026.11.tar.gz",
+      "sha256": "7f37a106024e2b3329ca0b027ff2f5e6f8446c8e0f101908db70df39f8515948",
+      "sizeBytes": 38912
+    }
+  },
+  "releaseNotes": [
+    "Phase 4A–4E consolidated enterprise release (Cataloguing, Circulation, 20k Migration, Reports, Dynamic Settings)",
+    "Phase 4F offline deployment package, SHA-256 manifest verification, pre-update backup validation, and safe rollback state machine"
+  ]
+}
+

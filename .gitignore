@@ -1,0 +1,47 @@
+# Environment variables (NEVER commit secrets)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+.dist/
+*.tsbuildinfo
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+*.db
+*.sqlite*
+data/*.db
+
+# Staging & temp uploads
+uploads/
+tmp/
+*.log
+!docs/evidence/test-logs/*.log
+!submission/**/test-logs/*.log
+
+# Prisma generated artifacts
+prisma/migrations/dev.db*
+
+# IDE & OS
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+

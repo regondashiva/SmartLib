@@ -1,0 +1,50 @@
+# ==============================================================================
+# SmartLib — Offline Containerized Deployment Stack (Docker Compose)
+# Supports pre-loaded local container images (`docker load -i smartlib-images.tar`)
+# Secrets are injected via external .env files — never embedded in this file.
+# ==============================================================================
+
+services:
+  smartlib-backend:
+    image: smartlib/backend:1.4.0
+    container_name: smartlib-backend
+    restart: unless-stopped
+    env_file:
+      - ../../backend/.env
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../../data/backups:/app/data/backups
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5000/api/v1/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  smartlib-rfid-middleware:
+    image: smartlib/rfid-middleware:1.2.0
+    container_name: smartlib-rfid-middleware
+    restart: unless-stopped
+    env_file:
+      - ../../rfid-service/.env
+    ports:
+      - "8001:8001"
+    volumes:
+      - ../../rfid-service/data:/app/data
+    depends_on:
+      - smartlib-backend
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  smartlib-frontend:
+    image: smartlib/frontend:1.4.0
+    container_name: smartlib-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - smartlib-backend
+

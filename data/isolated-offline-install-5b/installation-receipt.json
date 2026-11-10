@@ -1,0 +1,17 @@
+﻿{
+    "installationMode":  "REAL_OFFLINE_ISOLATED_INSTALL",
+    "dryRun":  false,
+    "installedAt":  "2026-11-10T02:36:49.4883443Z",
+    "osCaption":  "Microsoft Windows 11 Home Single Language",
+    "nodeVersion":  "22.14.0",
+    "pythonVersion":  "3.12.4",
+    "postgresHostState":  "DATA_DIR_ONLY_NO_LOCAL_DAEMON (Requires external/isolated PostgreSQL endpoint)",
+    "packageId":  "smartlib-offline-release-1.4.0",
+    "installedVersion":  "1.4.0",
+    "targetDirectory":  "C:\\Users\\shiva\\OneDrive\\Desktop\\project\\smartLib\\data\\isolated-offline-install-5b",
+    "verifiedArtifactSha256":  {
+                                   "frontendIndexHtml":  "4f1440029501127b50fe37aabec5c7b0116c7c18038d7547dac6f162bb0431a2",
+                                   "backendAppJs":  "b1cfd15d783bcff0a66818001bb9469f92f0f5a85a372eef9855062dc4486632",
+                                   "prismaSchema":  "ede0d664aa915d966268c399d2c8bb622d2ccb1cc8d57b133e8f0887b6a3386f"
+                               }
+}

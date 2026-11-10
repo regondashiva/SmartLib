@@ -1,0 +1,455 @@
+{
+  "format": "SMARTLIB_POSTGRESQL_LOGICAL_BACKUP_V1",
+  "backupId": "bkp-1.4.0-2026-11-09T13-02-17-864Z",
+  "label": "Pre-Update Snapshot (v1.4.0 before v1.5.0)",
+  "createdAt": "2026-11-09T13:02:17.864Z",
+  "appVersion": "1.4.0",
+  "schemaVersion": "2026.11.phase4f",
+  "tableCounts": {
+    "users": 4,
+    "roles": 4,
+    "books": 16,
+    "bookItems": 18,
+    "members": 3,
+    "circulations": 4,
+    "fines": 0,
+    "rfidTags": 3,
+    "systemConfigurations": 41
+  },
+  "data": {
+    "roles": [
+      {
+        "id": "b64077c4-2fe8-4bab-a88d-344df318efa2",
+        "name": "ADMIN",
+        "description": "System Administrator with full institutional authority"
+      },
+      {
+        "id": "b93f4bc5-5b4b-4bdf-9ae7-a3df700134fd",
+        "name": "LIBRARIAN",
+        "description": "Professional library staff managing circulation, catalog, and inventory"
+      },
+      {
+        "id": "22877093-8573-472e-98e6-3dd5eba8196a",
+        "name": "RFID_OPERATOR",
+        "description": "Technical operator managing tag encoding, gate monitors, and shelf audits"
+      },
+      {
+        "id": "4453c55d-b283-4750-a853-908b77b2b43c",
+        "name": "STUDENT",
+        "description": "Standard institutional student patron with catalog and loan visibility"
+      }
+    ],
+    "systemConfigurations": [
+      {
+        "id": "1d187f0c-46ea-454f-9911-708737f9e592",
+        "configKey": "RFID_MOCK_MODE",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "RFID",
+        "description": "Enable software RFID emulator mode when physical UHF/HF readers are disconnected",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "26255803-b76d-4662-a5fe-e741b964eb33",
+        "configKey": "RFID_EVENT_RETRY_ATTEMPTS",
+        "configValue": "3",
+        "dataType": "INTEGER",
+        "category": "RFID",
+        "description": "Maximum retry attempts for failed RFID middleware event synchronization",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "b09f9c99-1b6f-4625-943e-abc85344a370",
+        "configKey": "RFID_EVENT_RETRY_BACKOFF_MS",
+        "configValue": "2000",
+        "dataType": "INTEGER",
+        "category": "RFID",
+        "description": "Base retry backoff interval (in milliseconds) for RFID telemetry delivery",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "ba05b823-c003-4f0b-9a08-a62254fd497b",
+        "configKey": "RFID_OFFLINE_BUFFER_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "RFID",
+        "description": "Persist RFID scan events in local SQLite buffer during backend connectivity outages",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "d132e946-6adc-4a32-bd18-a9eaec9fd29d",
+        "configKey": "RFID_OFFLINE_BUFFER_MAX_RECORDS",
+        "configValue": "10000",
+        "dataType": "INTEGER",
+        "category": "RFID",
+        "description": "Maximum number of events retained in the local offline buffer before rotation",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "8946e3fd-6abd-48d5-a93f-86c5c61f8dd4",
+        "configKey": "GATE_EVENT_LOGGING_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "SECURITY_GATE",
+        "description": "Log all authorized and unauthorized security gate passages to database",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "5bcdf4ea-714b-4373-9196-d6c197c17b0e",
+        "configKey": "GATE_EAS_BEHAVIOR",
+        "configValue": "STRICT_ALARM",
+        "dataType": "STRING",
+        "category": "SECURITY_GATE",
+        "description": "Security gate action when an armed EAS tag crosses the pedestal (STRICT_ALARM, SILENT_LOG, DISABLED)",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "418ef216-dd2b-4d9d-a4a3-b1b48d94c723",
+        "configKey": "GATE_EVENT_RETENTION_DAYS",
+        "configValue": "365",
+        "dataType": "INTEGER",
+        "category": "SECURITY_GATE",
+        "description": "Number of days security gate telemetry and CCTV references are retained",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "6838dc44-2253-4d6b-9808-556ec8132e33",
+        "configKey": "NOTIFICATIONS_EMAIL_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "NOTIFICATIONS",
+        "description": "Enable institutional email notifications for circulation and fine events",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "333a44c3-0673-426e-b78e-da34cbd2857d",
+        "configKey": "NOTIFICATIONS_SMS_ENABLED",
+        "configValue": "false",
+        "dataType": "BOOLEAN",
+        "category": "NOTIFICATIONS",
+        "description": "Enable SMS text message dispatch for critical overdue and gate alerts",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "47373373-d766-47ad-933d-63d2b9316ecf",
+        "configKey": "NOTIFICATIONS_DUE_DATE_REMINDER_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "NOTIFICATIONS",
+        "description": "Send automated due-date reminder notices prior to loan expiration",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "8427d9fe-e5ac-40c6-8726-c7c8128d83dc",
+        "configKey": "NOTIFICATIONS_DUE_DATE_REMINDER_DAYS_BEFORE",
+        "configValue": "2",
+        "dataType": "INTEGER",
+        "category": "NOTIFICATIONS",
+        "description": "Number of days before due date to send courtesy reminder notifications",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "8a00bc97-3737-4d1b-85fc-e682d39a6941",
+        "configKey": "NOTIFICATIONS_OVERDUE_ALERT_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "NOTIFICATIONS",
+        "description": "Send automated overdue penalty notifications to delinquent borrowers",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "537ef582-bdea-4405-9679-7fe891382518",
+        "configKey": "NOTIFICATIONS_SECURITY_GATE_ALERT_ENABLED",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "NOTIFICATIONS",
+        "description": "Dispatch immediate alerts to duty librarians when an EAS gate alarm triggers",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "ba775fda-7cdb-41b6-b1f8-cc11b88c10ae",
+        "configKey": "INSTITUTION_NAME",
+        "configValue": "National Institute of Technology",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "Official legal name of the academic institution",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "113a9185-fb7b-42e6-9568-94b50ec8cd5d",
+        "configKey": "LIBRARY_NAME",
+        "configValue": "Central RFID Knowledge Resource Centre",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "Official name of the central or departmental library",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "74e81668-67fe-45b2-8802-c21d6f5b7f39",
+        "configKey": "ACADEMIC_YEAR",
+        "configValue": "2025-2026",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "Current active academic calendar cycle (YYYY-YYYY)",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "a86a28fe-4369-4559-a355-328e45dfdd9c",
+        "configKey": "TIME_ZONE",
+        "configValue": "Asia/Kolkata",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "IANA standard time zone used for due dates and compliance reports",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "6f44f9c4-7ecc-4eaf-96a9-b68147e22715",
+        "configKey": "CURRENCY",
+        "configValue": "INR",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "ISO 4217 currency code for fine assessments and book valuations",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "8a0c3495-aa2c-4fbb-bbd0-4ee27bcd1e0a",
+        "configKey": "CONTACT_EMAIL",
+        "configValue": "library-admin@smartlib.ac.in",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "Official institutional contact email for patron inquiries and notices",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "e00e37d2-eef4-4a2e-9780-a9b7fa1f35bc",
+        "configKey": "CONTACT_PHONE",
+        "configValue": "+91-11-2659-7135",
+        "dataType": "STRING",
+        "category": "INSTITUTIONAL",
+        "description": "Official library circulation desk telephone number",
+        "updatedByUserId": null,
+        "updatedAt": "2026-11-09T12:30:39.965Z"
+      },
+      {
+        "id": "255bdcff-9cf4-491f-8213-66d8f41686f8",
+        "configKey": "RFID_DUPLICATE_DETECTION_WINDOW_SECONDS",
+        "configValue": "5",
+        "dataType": "INTEGER",
+        "category": "RFID",
+        "description": "Deduplication window (in seconds) to ignore repeated reads of the same EPC tag",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:42:28.076Z"
+      },
+      {
+        "id": "effac45e-370d-45aa-b809-80e50e6bd686",
+        "configKey": "RFID_DEVICE_HEALTH_CHECK_INTERVAL_SECONDS",
+        "configValue": "30",
+        "dataType": "INTEGER",
+        "category": "RFID",
+        "description": "Interval (in seconds) between reader heartbeat health checks",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:42:28.324Z"
+      },
+      {
+        "id": "40787af8-9888-48b5-9614-c92407f7817b",
+        "configKey": "GATE_ALERT_THRESHOLD_PER_HOUR",
+        "configValue": "5",
+        "dataType": "INTEGER",
+        "category": "SECURITY_GATE",
+        "description": "Number of unresolved gate alarms per hour that triggers an escalation alert",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:42:28.577Z"
+      },
+      {
+        "id": "92cf7bb8-eed5-4cb8-adf2-a3100ea12702",
+        "configKey": "STUDENT_LOAN_DURATION_DAYS",
+        "configValue": "14",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Standard loan period (in days) for student patrons",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:24.266Z"
+      },
+      {
+        "id": "f83f44a1-9520-4614-ac91-334a5e75fae8",
+        "configKey": "STAFF_LOAN_DURATION_DAYS",
+        "configValue": "30",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Standard loan period (in days) for administrative and technical staff",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:24.564Z"
+      },
+      {
+        "id": "3d52e2eb-72f0-4efb-884e-ba7ccfc0ca7a",
+        "configKey": "FACULTY_LOAN_DURATION_DAYS",
+        "configValue": "30",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Extended loan period (in days) for faculty members",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:24.832Z"
+      },
+      {
+        "id": "bfc4db28-6c24-474f-99b4-52463fe32e05",
+        "configKey": "MAX_RENEWALS",
+        "configValue": "2",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum number of renewals permitted per active loan",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:25.095Z"
+      },
+      {
+        "id": "61c14395-036a-45be-a8f1-219b5cefcae6",
+        "configKey": "RENEWAL_EXTENSION_DAYS",
+        "configValue": "14",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Number of days added to due date upon standard renewal",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:25.349Z"
+      },
+      {
+        "id": "7088667d-955d-4a15-a8ee-ba6007a4a6ab",
+        "configKey": "FACULTY_RENEWAL_EXTENSION_DAYS",
+        "configValue": "30",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Number of days added to due date upon faculty renewal",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:25.605Z"
+      },
+      {
+        "id": "010c2416-aefd-4916-850e-d653b651f441",
+        "configKey": "MAX_ACTIVE_LOANS_STUDENT",
+        "configValue": "4",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum concurrent active loans permitted for student members",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:25.871Z"
+      },
+      {
+        "id": "98ac99e8-57ef-4347-adae-114fd08ac0b1",
+        "configKey": "MAX_ACTIVE_LOANS_STAFF",
+        "configValue": "8",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum concurrent active loans permitted for staff members",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:26.131Z"
+      },
+      {
+        "id": "623b9bf2-6400-4fe6-947e-04b9574cc185",
+        "configKey": "MAX_ACTIVE_LOANS_FACULTY",
+        "configValue": "10",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum concurrent active loans permitted for faculty members",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:26.399Z"
+      },
+      {
+        "id": "46b31229-2fff-45a0-add2-d97594f34523",
+        "configKey": "MAX_ACTIVE_LOANS_RESEARCH_SCHOLAR",
+        "configValue": "8",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum concurrent active loans permitted for research scholars",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:26.687Z"
+      },
+      {
+        "id": "3e8a9f18-2c73-4bbe-a19e-07c35a87abaf",
+        "configKey": "MAX_ACTIVE_LOANS_GUEST",
+        "configValue": "2",
+        "dataType": "INTEGER",
+        "category": "CIRCULATION",
+        "description": "Maximum concurrent active loans permitted for guest patrons",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:26.948Z"
+      },
+      {
+        "id": "6d6dd092-45b8-49d6-b3d9-c6d95392fc6a",
+        "configKey": "DAILY_FINE_RATE",
+        "configValue": "5.00",
+        "dataType": "DECIMAL",
+        "category": "CIRCULATION",
+        "description": "Monetary fine assessed per overdue calendar day (in institutional currency)",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:27.206Z"
+      },
+      {
+        "id": "791713ca-da6e-4c6e-9d62-b54f6ea7bcf8",
+        "configKey": "FINE_BORROWING_THRESHOLD",
+        "configValue": "25.00",
+        "dataType": "DECIMAL",
+        "category": "CIRCULATION",
+        "description": "Maximum unpaid fine balance permitted before checkout and renewal privileges are blocked",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:27.471Z"
+      },
+      {
+        "id": "eb4c40cb-2105-45e2-909f-8018ba188180",
+        "configKey": "ENFORCE_REFERENCE_ONLY_RESTRICTION",
+        "configValue": "true",
+        "dataType": "BOOLEAN",
+        "category": "CIRCULATION",
+        "description": "Reject checkout and renewal operations on items marked Reference-Only",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T12:43:27.741Z"
+      },
+      {
+        "id": "cf87ee88-bafc-4bb1-ad26-976c3ee21489",
+        "configKey": "DEPLOY_CURRENT_VERSION",
+        "configValue": "1.4.0",
+        "dataType": "STRING",
+        "category": "DEPLOYMENT",
+        "description": "System deployment and update lifecycle metadata",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T13:01:47.802Z"
+      },
+      {
+        "id": "8c07874e-a0e6-405f-94d5-178604a106c3",
+        "configKey": "DEPLOY_CURRENT_MANIFEST",
+        "configValue": "{\"packageId\":\"smartlib-offline-release-1.4.0\",\"appVersion\":\"1.4.0\",\"minSupportedUpgradeVersion\":\"1.0.0\",\"buildTimestamp\":\"2026-11-09T10:00:00.000Z\",\"components\":{\"frontendVersion\":\"1.4.0\",\"backendVersion\":\"1.4.0\",\"rfidMiddlewareVersion\":\"1.2.0\",\"databaseSchemaVersion\":\"2026.11.phase4f\"},\"requiredRuntimes\":{\"nodeMinVersion\":\"20.0.0\",\"pythonMinVersion\":\"3.11.0\",\"postgresqlMinVersion\":\"15.0\",\"supportedOs\":[\"Windows 11\",\"Windows Server 2022\",\"Linux x64\"]},\"migrations\":{\"requiresSchemaMigration\":false,\"backwardCompatible\":true,\"destructiveChanges\":false,\"migrationFiles\":[\"0001_initial_schema.sql\",\"0002_phase4_indexes.sql\"]},\"checksums\":{\"frontendBundle\":{\"archiveName\":\"smartlib-frontend-dist-1.4.0.tar.gz\",\"sha256\":\"2a3f06790f90e5a45ee1df19a698ec4d7aa51dab5edaea86735163a62f7fe459\",\"sizeBytes\":1314048},\"backendBundle\":{\"archiveName\":\"smartlib-backend-dist-1.4.0.tar.gz\",\"sha256\":\"fae6c9262f8d50467b0bc66fb1d703dedecb6481802d488bf3be0bc30739b045\",\"sizeBytes\":842752},\"rfidMiddlewareBundle\":{\"archiveName\":\"smartlib-rfid-service-1.2.0.tar.gz\",\"sha256\":\"fe18e1f1ad91c81e3d04fdd81aa35189c4ac3fd5a712d2de0a0add2264338218\",\"sizeBytes\":412672},\"databaseSchemaBundle\":{\"archiveName\":\"smartlib-prisma-schema-2026.11.tar.gz\",\"sha256\":\"820dea27aa31050e837fff973d056db6fe7424edd111f2f6aa481d222f5bd3aa\",\"sizeBytes\":38912}},\"releaseNotes\":[\"Phase 4A–4E consolidated enterprise release\",\"Phase 4F offline installation, pre-update backup verification, controlled update state machine, and rollback engine\"]}",
+        "dataType": "JSON",
+        "category": "DEPLOYMENT",
+        "description": "System deployment and update lifecycle metadata",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T13:01:48.303Z"
+      },
+      {
+        "id": "241308d0-6012-410e-b7b7-ce48ff3ab0a4",
+        "configKey": "DEPLOY_LAST_KNOWN_GOOD_BACKUP_ID",
+        "configValue": "bkp-1.4.0-2026-11-09T13-02-04-160Z",
+        "dataType": "STRING",
+        "category": "DEPLOYMENT",
+        "description": "Identifier of preserved last known-good database backup",
+        "updatedByUserId": "8dc76ed6-55f3-4009-87aa-adeb9a0cdbb8",
+        "updatedAt": "2026-11-09T13:02:04.941Z"
+      }
+    ]
+  }
+}

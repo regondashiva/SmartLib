@@ -1,0 +1,28 @@
+{
+  "recordCount": 20000,
+  "validRecords": 19394,
+  "errorRecords": 606,
+  "timings": {
+    "datasetGenerationMs": 123,
+    "fileParsingMs": 849,
+    "batchStagingMs": 32356,
+    "validationEngineMs": 42611,
+    "dryRunSimulationMs": 40228,
+    "chunkedCommitMs": 80342,
+    "rollbackMs": 4949,
+    "totalPipelineMs": 116044
+  },
+  "throughput": {
+    "parsingRecsPerSec": 23557,
+    "stagingRecsPerSec": 618,
+    "validationRecsPerSec": 469,
+    "dryRunRecsPerSec": 497,
+    "commitRecsPerSec": 1
+  },
+  "reconciliation": {
+    "totalRecords": 20000,
+    "committedBooks": 20,
+    "committedCopies": 40,
+    "revertedBooks": 20
+  }
+}

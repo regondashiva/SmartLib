@@ -1,0 +1,719 @@
+// ==============================================================================
+// SmartLib — Integrated Library Management System
+// Prisma Schema for Neon Serverless PostgreSQL
+// ==============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ------------------------------------------------------------------------------
+// Enums
+// ------------------------------------------------------------------------------
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum MemberType {
+  STUDENT
+  FACULTY
+  RESEARCH_SCHOLAR
+  STAFF
+  GUEST
+}
+
+enum MemberStatus {
+  ACTIVE
+  BLOCKED
+  EXPIRED
+  SUSPENDED
+}
+
+enum ItemStatus {
+  AVAILABLE
+  ISSUED
+  RESERVED
+  LOST
+  DAMAGED
+  IN_TRANSIT
+  REFERENCE_ONLY
+  BINDING
+}
+
+enum ItemCondition {
+  NEW
+  GOOD
+  FAIR
+  WORN
+  DAMAGED
+}
+
+enum RFIDTagType {
+  HF_ISO15693
+  HF_ISO14443A
+  UHF_EPC_GEN2
+}
+
+enum RFIDTagStatus {
+  ACTIVE
+  DAMAGED
+  UNASSIGNED
+  DECOMMISSIONED
+}
+
+enum DeviceType {
+  STAFF_STATION
+  HANDHELD_READER
+  SECURITY_GATE
+  SELF_CHECKOUT_KIOSK
+  RETURN_STATION
+}
+
+enum DeviceStatus {
+  ONLINE
+  OFFLINE
+  MAINTENANCE
+  ERROR
+}
+
+enum CirculationStatus {
+  ACTIVE
+  RETURNED
+  OVERDUE
+  LOST_CLAIMED
+}
+
+enum FineStatus {
+  UNPAID
+  PARTIALLY_PAID
+  PAID
+  WAIVED
+}
+
+enum FineReason {
+  OVERDUE
+  DAMAGED_BOOK
+  LOST_BOOK
+  PROCESSING_FEE
+}
+
+enum InventoryStatus {
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum InventoryScanStatus {
+  VERIFIED
+  MISPLACED
+  MISSING
+  UNCATALOGED
+}
+
+enum HoldStatus {
+  PENDING
+  FULFILLED
+  CANCELLED
+  EXPIRED
+}
+
+enum NotificationType {
+  DUE_REMINDER
+  OVERDUE_ALERT
+  FINE_NOTICE
+  HOLD_AVAILABLE
+  GATE_ALARM
+  SYSTEM_ALERT
+}
+
+enum NotificationChannel {
+  EMAIL
+  SMS
+  IN_APP
+  PRINT
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+  READ
+}
+
+enum MigrationStatus {
+  UPLOADED
+  VALIDATING
+  VALIDATED
+  DRY_RUN_COMPLETED
+  COMMITTED
+  ROLLED_BACK
+  FAILED
+}
+
+enum StagingRecordStatus {
+  PENDING
+  VALID
+  INVALID
+  COMMITTED
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+  DISARM_EAS
+  ARM_EAS
+  WAIVE_FINE
+  MIGRATION_EXECUTE
+  MIGRATION_ROLLBACK
+  SYSTEM_CONFIG_CHANGE
+}
+
+enum ConfigDataType {
+  STRING
+  INTEGER
+  DECIMAL
+  BOOLEAN
+  JSON
+}
+
+// ------------------------------------------------------------------------------
+// Authentication & RBAC Models
+// ------------------------------------------------------------------------------
+
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique @db.VarChar(255)
+  passwordHash String     @db.VarChar(255)
+  firstName    String     @db.VarChar(100)
+  lastName     String     @db.VarChar(100)
+  roleId       String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Restrict)
+  status       UserStatus @default(ACTIVE)
+  lastLoginAt  DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+
+  // Relations
+  issuedCirculations   Circulation[]      @relation("IssuedByUser")
+  returnedCirculations Circulation[]      @relation("ReturnedToUser")
+  waivedFines          Fine[]             @relation("WaivedByUser")
+  resolvedGateEvents   GateEvent[]        @relation("ResolvedByUser")
+  conductedAudits      InventorySession[] @relation("ConductedByUser")
+  executedMigrations   MigrationBatch[]   @relation("ExecutedByUser")
+  updatedConfigs       SystemConfiguration[] @relation("UpdatedByUser")
+  auditLogs            AuditLog[]
+
+  @@index([roleId])
+  @@index([status])
+  @@map("users")
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique @db.VarChar(50)
+  description String?  @db.VarChar(255)
+  isSystemRole Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users       User[]
+  permissions RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(uuid())
+  code        String   @unique @db.VarChar(100)
+  description String?  @db.VarChar(255)
+  module      String   @db.VarChar(50)
+  createdAt   DateTime @default(now())
+
+  roles       RolePermission[]
+
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  assignedAt   DateTime @default(now())
+
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+// ------------------------------------------------------------------------------
+// Member Management
+// ------------------------------------------------------------------------------
+
+model Member {
+  id             String       @id @default(uuid())
+  cardNumber     String       @unique @db.VarChar(50)
+  smartCardUid   String?      @unique @db.VarChar(100)
+  firstName      String       @db.VarChar(100)
+  lastName       String       @db.VarChar(100)
+  email          String       @unique @db.VarChar(255)
+  phoneNumber    String?      @db.VarChar(30)
+  memberType     MemberType   @default(STUDENT)
+  department     String?      @db.VarChar(100)
+  status         MemberStatus @default(ACTIVE)
+  maxBorrowLimit Int          @default(4)
+  fineBalance    Decimal      @default(0.00) @db.Decimal(10, 2)
+  expiryDate     DateTime
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  deletedAt      DateTime?
+
+  // Relations
+  circulations     Circulation[]
+  fines            Fine[]
+  holdReservations HoldReservation[]
+  notifications    Notification[]
+
+  @@index([memberType])
+  @@index([status])
+  @@index([smartCardUid])
+  @@map("members")
+}
+
+// ------------------------------------------------------------------------------
+// Bibliographic Catalog Models
+// ------------------------------------------------------------------------------
+
+model Author {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(255)
+  biography String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  books BookAuthor[]
+
+  @@index([name])
+  @@map("authors")
+}
+
+model Publisher {
+  id        String   @id @default(uuid())
+  name      String   @unique @db.VarChar(255)
+  address   String?  @db.VarChar(255)
+  website   String?  @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  books Book[]
+
+  @@map("publishers")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique @db.VarChar(100)
+  code        String?  @unique @db.VarChar(20) // e.g. DDC 004, 510
+  description String?  @db.VarChar(255)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  books Book[]
+
+  @@map("categories")
+}
+
+model Book {
+  id              String    @id @default(uuid())
+  title           String    @db.VarChar(500)
+  subtitle        String?   @db.VarChar(500)
+  isbn13          String?   @unique @db.VarChar(20)
+  isbn10          String?   @db.VarChar(15)
+  edition         String?   @db.VarChar(50)
+  publisherId     String?
+  publisher       Publisher? @relation(fields: [publisherId], references: [id], onDelete: SetNull)
+  publicationYear Int?
+  categoryId      String?
+  category        Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  callNumber      String?   @db.VarChar(100)
+  description     String?   @db.Text
+  coverImageUrl   String?   @db.VarChar(500)
+  language        String    @default("English") @db.VarChar(50)
+  pageCount       Int?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+
+  // Relations
+  authors          BookAuthor[]
+  copies           BookItem[]
+  holdReservations HoldReservation[]
+
+  @@index([title])
+  @@index([callNumber])
+  @@index([categoryId])
+  @@index([publicationYear])
+  @@map("books")
+}
+
+model BookAuthor {
+  bookId   String
+  authorId String
+
+  book   Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  author Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@id([bookId, authorId])
+  @@map("book_authors")
+}
+
+// ------------------------------------------------------------------------------
+// Physical Inventory (Copy Level) & RFID Association
+// ------------------------------------------------------------------------------
+
+model BookItem {
+  id              String        @id @default(uuid())
+  bookId          String
+  book            Book          @relation(fields: [bookId], references: [id], onDelete: Restrict)
+  accessionNumber String        @unique @db.VarChar(50)
+  barcode         String?       @unique @db.VarChar(50)
+  rfidTagId       String?       @unique
+  rfidTag         RFIDTag?      @relation(fields: [rfidTagId], references: [id], onDelete: SetNull)
+  status          ItemStatus    @default(AVAILABLE)
+  condition       ItemCondition @default(GOOD)
+  shelfLocation   String        @db.VarChar(100)
+  price           Decimal?      @db.Decimal(10, 2)
+  acquisitionDate DateTime      @default(now())
+  isReferenceOnly Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  deletedAt       DateTime?
+
+  // Relations
+  circulations     Circulation[]
+  inventoryScans   InventoryScan[]
+  gateEvents       GateEvent[]
+  holdReservations HoldReservation[]
+
+  @@index([bookId])
+  @@index([status])
+  @@index([shelfLocation])
+  @@index([isReferenceOnly])
+  @@map("book_items")
+}
+
+model RFIDTag {
+  id        String        @id @default(uuid())
+  epc       String        @unique @db.VarChar(64)
+  tid       String?       @db.VarChar(64)
+  tagType   RFIDTagType   @default(UHF_EPC_GEN2)
+  easArmed  Boolean       @default(true) // EAS bit (true = armed/alarm on exit)
+  status    RFIDTagStatus @default(UNASSIGNED)
+  encodedAt DateTime?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  bookItem BookItem?
+
+  @@index([status])
+  @@index([easArmed])
+  @@map("rfid_tags")
+}
+
+// ------------------------------------------------------------------------------
+// Hardware Infrastructure & Events
+// ------------------------------------------------------------------------------
+
+model RFIDDevice {
+  id              String       @id @default(uuid())
+  deviceCode      String       @unique @db.VarChar(50)
+  name            String       @db.VarChar(100)
+  deviceType      DeviceType
+  ipAddress       String?      @db.VarChar(45)
+  macAddress      String?      @db.VarChar(50)
+  location        String       @db.VarChar(100)
+  status          DeviceStatus @default(ONLINE)
+  lastHeartbeatAt DateTime?
+  firmwareVersion String?      @db.VarChar(50)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  // Relations
+  deviceEvents      DeviceEvent[]
+  gateEvents        GateEvent[]
+  inventorySessions InventorySession[]
+
+  @@index([deviceType])
+  @@index([status])
+  @@map("rfid_devices")
+}
+
+model DeviceEvent {
+  id        String     @id @default(uuid())
+  deviceId  String
+  device    RFIDDevice @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  eventType String     @db.VarChar(50) // HEARTBEAT, ANTENNA_READ, ERROR, CALIBRATE
+  payload   Json?
+  timestamp DateTime   @default(now())
+
+  @@index([deviceId, timestamp])
+  @@map("device_events")
+}
+
+model GateEvent {
+  id               String      @id @default(uuid())
+  deviceId         String
+  device           RFIDDevice  @relation(fields: [deviceId], references: [id], onDelete: Restrict)
+  timestamp        DateTime    @default(now())
+  tagEpc           String?     @db.VarChar(64)
+  bookItemId       String?
+  bookItem         BookItem?   @relation(fields: [bookItemId], references: [id], onDelete: SetNull)
+  alarmTriggered   Boolean     @default(false)
+  alarmResolved    Boolean     @default(false)
+  resolvedByUserId String?
+  resolvedByUser   User?       @relation("ResolvedByUser", fields: [resolvedByUserId], references: [id], onDelete: SetNull)
+  resolutionNotes  String?     @db.Text
+  footfallCount    Int?
+  cctvTimestampRef String?     @db.VarChar(100)
+  createdAt        DateTime    @default(now())
+
+  @@index([deviceId])
+  @@index([timestamp(sort: Desc)])
+  @@index([alarmTriggered, alarmResolved])
+  @@map("gate_events")
+}
+
+// ------------------------------------------------------------------------------
+// Circulation & Financial Ledger
+// ------------------------------------------------------------------------------
+
+model Circulation {
+  id               String            @id @default(uuid())
+  bookItemId       String
+  bookItem         BookItem          @relation(fields: [bookItemId], references: [id], onDelete: Restrict)
+  memberId         String
+  member           Member            @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  issuedByUserId   String
+  issuedByUser     User              @relation("IssuedByUser", fields: [issuedByUserId], references: [id], onDelete: Restrict)
+  issuedDate       DateTime          @default(now())
+  dueDate          DateTime
+  returnedDate     DateTime?
+  returnedToUserId String?
+  returnedToUser   User?             @relation("ReturnedToUser", fields: [returnedToUserId], references: [id], onDelete: SetNull)
+  renewalCount     Int               @default(0)
+  status           CirculationStatus @default(ACTIVE)
+  notes            String?           @db.Text
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  fines Fine[]
+
+  @@index([bookItemId, status])
+  @@index([memberId, status])
+  @@index([dueDate, status])
+  @@map("circulations")
+}
+
+model Fine {
+  id              String      @id @default(uuid())
+  circulationId   String?
+  circulation     Circulation? @relation(fields: [circulationId], references: [id], onDelete: SetNull)
+  memberId        String
+  member          Member      @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  amount          Decimal     @db.Decimal(10, 2)
+  paidAmount      Decimal     @default(0.00) @db.Decimal(10, 2)
+  balance         Decimal     @db.Decimal(10, 2)
+  status          FineStatus  @default(UNPAID)
+  reason          FineReason  @default(OVERDUE)
+  receiptNumber   String?     @unique @db.VarChar(50)
+  waivedByUserId  String?
+  waivedByUser    User?       @relation("WaivedByUser", fields: [waivedByUserId], references: [id], onDelete: SetNull)
+  waivedReason    String?     @db.Text
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([memberId, status])
+  @@index([circulationId])
+  @@map("fines")
+}
+
+model HoldReservation {
+  id            String     @id @default(uuid())
+  bookId        String
+  book          Book       @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookItemId    String?
+  bookItem      BookItem?  @relation(fields: [bookItemId], references: [id], onDelete: SetNull)
+  memberId      String
+  member        Member     @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  requestedDate DateTime   @default(now())
+  expiryDate    DateTime
+  status        HoldStatus @default(PENDING)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@index([bookId, status])
+  @@index([memberId])
+  @@map("hold_reservations")
+}
+
+// ------------------------------------------------------------------------------
+// Shelf Inventory & Misplaced Book Tracking
+// ------------------------------------------------------------------------------
+
+model InventorySession {
+  id                String          @id @default(uuid())
+  sessionCode       String          @unique @db.VarChar(50)
+  conductedByUserId String
+  conductedByUser   User            @relation("ConductedByUser", fields: [conductedByUserId], references: [id], onDelete: Restrict)
+  deviceId          String?
+  device            RFIDDevice?     @relation(fields: [deviceId], references: [id], onDelete: SetNull)
+  targetLocation    String          @db.VarChar(100) // e.g. "STACK-B/AISLE-04"
+  startedAt         DateTime        @default(now())
+  completedAt       DateTime?
+  totalScanned      Int             @default(0)
+  totalVerified     Int             @default(0)
+  totalMisplaced    Int             @default(0)
+  totalMissing      Int             @default(0)
+  status            InventoryStatus @default(IN_PROGRESS)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  scans InventoryScan[]
+
+  @@index([status])
+  @@index([startedAt(sort: Desc)])
+  @@map("inventory_sessions")
+}
+
+model InventoryScan {
+  id                    String              @id @default(uuid())
+  sessionId             String
+  session               InventorySession    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  bookItemId            String?
+  bookItem              BookItem?           @relation(fields: [bookItemId], references: [id], onDelete: SetNull)
+  scannedEpc            String              @db.VarChar(64)
+  expectedShelfLocation String?             @db.VarChar(100)
+  scannedShelfLocation  String              @db.VarChar(100)
+  scanStatus            InventoryScanStatus @default(VERIFIED)
+  scannedAt             DateTime            @default(now())
+
+  @@index([sessionId, scanStatus])
+  @@index([bookItemId])
+  @@index([scannedEpc])
+  @@map("inventory_scans")
+}
+
+// ------------------------------------------------------------------------------
+// Notifications
+// ------------------------------------------------------------------------------
+
+model Notification {
+  id          String              @id @default(uuid())
+  memberId    String
+  member      Member              @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  type        NotificationType
+  channel     NotificationChannel @default(EMAIL)
+  recipient   String              @db.VarChar(255)
+  subject     String              @db.VarChar(255)
+  message     String              @db.Text
+  status      NotificationStatus  @default(PENDING)
+  sentAt      DateTime?
+  createdAt   DateTime            @default(now())
+
+  @@index([memberId, status])
+  @@map("notifications")
+}
+
+// ------------------------------------------------------------------------------
+// Data Migration Pipeline (20,000 Records)
+// ------------------------------------------------------------------------------
+
+model MigrationBatch {
+  id              String          @id @default(uuid())
+  batchName       String          @db.VarChar(100)
+  sourceFileName  String          @db.VarChar(255)
+  totalRecords    Int             @default(0)
+  validRecords    Int             @default(0)
+  errorRecords    Int             @default(0)
+  migratedRecords Int             @default(0)
+  status          MigrationStatus @default(UPLOADED)
+  executedByUserId String
+  executedByUser   User           @relation("ExecutedByUser", fields: [executedByUserId], references: [id], onDelete: Restrict)
+  dryRunSummary   Json?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  stagingRecords MigrationStagingRecord[]
+
+  @@index([status])
+  @@map("migration_batches")
+}
+
+model MigrationStagingRecord {
+  id                String              @id @default(uuid())
+  batchId           String
+  batch             MigrationBatch      @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  rowNumber         Int
+  rawPayload        Json
+  normalizedPayload Json?
+  validationErrors  Json?
+  status            StagingRecordStatus @default(PENDING)
+  createdAt         DateTime            @default(now())
+
+  @@index([batchId, status])
+  @@index([rowNumber])
+  @@map("migration_staging_records")
+}
+
+// ------------------------------------------------------------------------------
+// Audit Trail & System Configuration
+// ------------------------------------------------------------------------------
+
+model AuditLog {
+  id            String      @id @default(uuid())
+  actorUserId   String?
+  actorUser     User?       @relation(fields: [actorUserId], references: [id], onDelete: SetNull)
+  actorEmail    String?     @db.VarChar(255)
+  action        AuditAction
+  entityName    String      @db.VarChar(100)
+  entityId      String?     @db.VarChar(100)
+  previousState Json?
+  newState      Json?
+  ipAddress     String?     @db.VarChar(45)
+  userAgent     String?     @db.VarChar(500)
+  timestamp     DateTime    @default(now())
+
+  @@index([timestamp(sort: Desc)])
+  @@index([entityName, entityId])
+  @@index([actorUserId])
+  @@map("audit_logs")
+}
+
+model SystemConfiguration {
+  id              String         @id @default(uuid())
+  configKey       String         @unique @db.VarChar(100)
+  configValue     String         @db.Text
+  dataType        ConfigDataType @default(STRING)
+  category        String         @db.VarChar(50) // CIRCULATION, FINES, RFID, NOTIFICATIONS
+  description     String?        @db.VarChar(255)
+  updatedByUserId String?
+  updatedByUser   User?          @relation("UpdatedByUser", fields: [updatedByUserId], references: [id], onDelete: SetNull)
+  updatedAt       DateTime       @default(now()) @updatedAt
+
+  @@index([category])
+  @@map("system_configurations")
+}
+
